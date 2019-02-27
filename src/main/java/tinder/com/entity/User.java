@@ -1,69 +1,72 @@
 package tinder.com.entity;
 
-public class User {
-    private int id;
-    private String name;
-    private String login;
+import tinder.com.Interface.Identifiable;
+
+public class User implements Identifiable {
+    private final int id;
+    private final String name;
+    private String occupation;
+    private final String login;
     private String password;
+    private String photo;
 
-    public User() {
 
-    }
-    public User(String name, String login, String password) {
-        this.name = name;
-        this.login = login;
-        this.password = password;
-    }
-    public User(int id, String name, String login, String password) {
+    public User(String name, String occupation, String login, String password, String photo) {
         this.id = login.hashCode();
         this.name = name;
+        this.occupation = occupation;
         this.login = login;
         this.password = password;
+        this.photo = photo;
     }
 
-    public String getPassword() {
-        return password;
+    public boolean check(String password) {
+        return password.equals(this.password);
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
+    @Override
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getOccupation() {
+        return occupation;
     }
 
     public String getLogin() {
         return login;
     }
 
-    public void setLogin(String surname) {
-        this.login = login;
+    public String getPassword() {
+        return password;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
+                ", occupation='" + occupation + '\'' +
                 ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
                 '}';
-    }
-
-    public boolean check(String password) {
-        return password.equals(this.password);
     }
 }

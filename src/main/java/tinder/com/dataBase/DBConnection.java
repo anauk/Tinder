@@ -4,14 +4,16 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DBConnection {
-    private String path = "jdbc:postgresql://localhost:5432/postgres";
-    private String name = "postgres";
-    private String password = "secret";
-    private Connection connection;
+public class DbConnection {
+    private String path = "jdbc:mysql://danit.cukm9c6zpjo8.us-west-2.rds.amazonaws.com:3306/fs5";
+    private String username = "fs5_user";
+    private String password = "bArceloNa";
 
-    private Connection connect() throws SQLException {
-        return DriverManager.getConnection(path, name, password);
+    private Connection connection = null;
+
+
+    public Connection connect() throws SQLException {
+        return DriverManager.getConnection(path, username, password);
     }
 
     public Connection connection() {
@@ -19,7 +21,8 @@ public class DBConnection {
             try {
                 connection = connect();
             } catch (SQLException e) {
-                throw new IllegalStateException("DbConnection went wrong ", e);
+                e.printStackTrace();
+                throw new IllegalArgumentException("Something went wrong");
             }
         }
         return this.connection;

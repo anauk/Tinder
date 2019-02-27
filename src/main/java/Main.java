@@ -1,32 +1,47 @@
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import tinder.com.Interface.UserStorage;
-import tinder.com.dataBase.DBConnection;
-import tinder.com.freemarker.Freemarker;
-import tinder.com.impl.UserStoragImpl;
-import tinder.com.servlets.AssertServlet;
-import tinder.com.servlets.HelloServlet;
-import tinder.com.servlets.LoginServlet;
-import tinder.com.servlets.UsersServlet;
+import tinder.com.DAO.CartsDAO_SQL;
+import tinder.com.DAO.MessagesDAO_SQL;
+import tinder.com.DAO.UserDAO_SQL;
+import tinder.com.Interface.DAO;
+import tinder.com.dataBase.DbConnection;
+import tinder.com.services.CartService;
+import tinder.com.services.MessagesService;
+import tinder.com.services.UserService;
+import tinder.com.servlets.*;
+import tinder.com.utils.CookieProcessor;
 
 import java.sql.Connection;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         ServletContextHandler handler = new ServletContextHandler();
-        UserStorage security = new UserStoragImpl();
-        Connection connection = new DBConnection().connection();
-        Freemarker f = new Freemarker("src/main/resources/templates");
 
-        handler.addServlet(AssertServlet.class, "/assert/*");
+        String cookieName = CookiesNames.TINDER.getName();
+        Connection conn = new DbConnection().connection();
 
-        handler.addServlet(new ServletHolder(new HelloServlet()), "/hello/*");
-        handler.addServlet(new ServletHolder(new UsersServlet(connection, f)), "/users/*");
-        handler.addServlet(new ServletHolder(new LoginServlet(security, connection, f)), "/login/*");
 
-        //handler.addFilter(LoginFilter.class, "/reg/*", EnumSet.of(DispatcherType.INCLUDE,DispatcherType.REQUEST));
-        //handler.addFilter(AuthFilter.class, "/auth/*", EnumSet.of(DispatcherType.INCLUDE,DispatcherType.REQUEST));
+        DAO users = new UserDAO_SQL(conn);
+        MessagesDAO_SQL messages = new MessagesDAO_SQL(conn);
+        CartsDAO_SQL carts = new CartsDAO_SQL(conn);
+        UserService userService = new UserService(users);
+        MessagesService messagesService = new MessagesService(messages);
+        CartService cartService = new CartService(carts);
+        CookieProcessor cp = new CookieProcessor(cookieName, userService);
+        CartServlet cartServlet = new CartServlet(cartService, userService, cp);
+        ServletUserList servletUserList = new ServletUserList(messagesService, cartService, cp);
+        ServletRegistration servletRegistration = new ServletRegistration(userService);
+        ServletLogin servletLogin = new ServletLogin();
+        ServletLogout servletLogout = new ServletLogout();
+        AssetsServlet assetsServlet = new AssetsServlet();
+
+        handler.addServlet(new ServletHolder(servletUserList), "/users");
+        handler.addServlet(new ServletHolder(servletRegistration), "/registration");
+        handler.addServlet(new ServletHolder(servletLogin), "/login");
+        handler.addServlet(new ServletHolder(servletLogout), "/logout");
+        handler.addServlet(new ServletHolder(cartServlet), "/liked");
+        handler.addServlet(new ServletHolder(assetsServlet), "/assets/*");
 
         Server server = new Server(80);
         server.setHandler(handler);
