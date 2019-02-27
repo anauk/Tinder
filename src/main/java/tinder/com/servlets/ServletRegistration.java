@@ -36,7 +36,7 @@ public class ServletRegistration extends ServletRoot {
         String login = pfr.getString("login").trim();
         String password = pfr.getString("password").trim();
 
-        User user = new User(name, occupation, photo, login, password);
+        User user = new User(name, occupation, login, password, photo);
         userService.addUser(user);
         resp.addCookie(new Cookie(cookieName, String.valueOf(login.hashCode())));
 

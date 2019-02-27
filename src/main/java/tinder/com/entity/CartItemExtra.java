@@ -2,35 +2,31 @@ package tinder.com.entity;
 
 public class CartItemExtra extends CartItem {
 
-    private final String category;
     private final String name;
-    private final int price;
+    private final String occupation;
+    private final String photo;
 
-    public CartItemExtra(int user_id, int item_id, boolean sympathy, String category, String name, int price) {
-        this(-1, user_id, item_id, sympathy, category, name, price);
+    public CartItemExtra(int user1_id, int user2_id, boolean sympathy, String name, String occupation, String photo) {
+        this(-1, user1_id, user2_id, sympathy, name, occupation, photo);
     }
 
-    public CartItemExtra(int id, int user_id, int item_id, boolean sympathy, String category, String name, int price) {
-        super(id, user_id, item_id, sympathy);
-        this.category = category;
+    public CartItemExtra(int id, int user1_id, int user2_id, boolean sympathy, String name, String occupation, String photo) {
+        super(id, user1_id, user2_id, sympathy);
         this.name = name;
-        this.price = price;
-    }
-
-    public String getCategory() {
-        return category;
+        this.occupation = occupation;
+        this.photo = photo;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getPrice() {
-        return price;
+    public String getOccupation() {
+        return occupation;
     }
 
-    @Override
-    public String toString() {
-        return String.format("%-8d%-25s%-25s%-12d%-12s", super.getItem2_id(), getCategory(), getName(), getPrice(), super.getSympathy());
+    public String getPhoto() {
+        return photo;
     }
+
 }

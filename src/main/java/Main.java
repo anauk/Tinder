@@ -1,4 +1,5 @@
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import tinder.com.DAO.CartsDAO_SQL;
@@ -6,13 +7,16 @@ import tinder.com.DAO.MessagesDAO_SQL;
 import tinder.com.DAO.UserDAO_SQL;
 import tinder.com.Interface.DAO;
 import tinder.com.dataBase.DbConnection;
+import tinder.com.filters.*;
 import tinder.com.services.CartService;
 import tinder.com.services.MessagesService;
 import tinder.com.services.UserService;
 import tinder.com.servlets.*;
 import tinder.com.utils.CookieProcessor;
 
+import javax.servlet.DispatcherType;
 import java.sql.Connection;
+import java.util.EnumSet;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -43,10 +47,24 @@ public class Main {
         handler.addServlet(new ServletHolder(cartServlet), "/liked");
         handler.addServlet(new ServletHolder(assetsServlet), "/assets/*");
 
+        handler.addFilter(new FilterHolder(new NoUsersFilter(userService)), "/login", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new ExistingLoginFilter(userService)), "/registration", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new EntryFormatFilter()), "/registration", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new PasswordMismatchFilter()), "/registration", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new LoginPasswordFilter(userService)), "/login", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new HasCookiesFilter()), "/liked", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new HasMyCookieFilter()), "/liked", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new CookieMatchFilter(cp)), "/liked", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new HasCookiesFilter()), "/users", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new HasMyCookieFilter()), "/users", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new CookieMatchFilter(cp)), "/users", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+
+
         Server server = new Server(80);
         server.setHandler(handler);
         server.start();
         server.join();
 
     }
+
 }

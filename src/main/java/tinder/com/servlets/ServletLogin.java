@@ -29,6 +29,6 @@ public class ServletLogin extends ServletRoot {
         String login = pfr.getString("login");
 
         resp.addCookie(new Cookie(cookieName, String.valueOf(login.hashCode())));
-        resp.sendRedirect("/shop");
+        resp.sendRedirect("/users");
     }
 }

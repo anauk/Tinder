@@ -40,8 +40,8 @@ public class CartService {
     }
 
     // TODO перехват IllegalArgumentException
-    public void setQuantity(int quantity, int id){
-        carts.setQuantity(quantity, id);
+    public void setSympathy(boolean sympathy, int id){
+        carts.setSympathy(sympathy, id);
     }
 
     public List<CartItemExtra> getByUser(int user_id){

@@ -25,12 +25,12 @@ public class UserDAO_SQL implements DAO<User> {
             throw new LoginMatchException("The user with this login is already exist");
         } catch (ElementNotFoundInDbException ex) {
             try {
-                PreparedStatement stmt = conn.prepareStatement("insert into alex_grig_users(id, name, occupation, password, login, photo) values (?, ?, ?, ?, ?, ?)");
+                PreparedStatement stmt = conn.prepareStatement("insert into ag_tinder_users(id, name, occupation, login, password , photo) values (?, ?, ?, ?, ?, ?)");
                 stmt.setInt(1, user.getId());
                 stmt.setString(2, user.getName());
                 stmt.setString(3, user.getOccupation());
-                stmt.setString(4, user.getPassword());
-                stmt.setString(5, user.getLogin());
+                stmt.setString(4, user.getLogin());
+                stmt.setString(5, user.getPassword());
                 stmt.setString(6, user.getPhoto());
                 stmt.execute();
             } catch (SQLException e) {
@@ -43,7 +43,7 @@ public class UserDAO_SQL implements DAO<User> {
     public List<User> getAll() {
         List<User> users = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM alex_grig_users";
+            String sql = "SELECT * FROM ag_tinder_users";
             PreparedStatement stm = conn.prepareStatement(sql);
             ResultSet rSet = stm.executeQuery();
             while (rSet.next()) {
@@ -67,7 +67,7 @@ public class UserDAO_SQL implements DAO<User> {
     @Override
     public User get(int userId) { // TODO перехват ElementNotFoundInDbException
         try {
-            PreparedStatement stmt = conn.prepareStatement("select * from alex_grig_users where id = ?");
+            PreparedStatement stmt = conn.prepareStatement("select * from ag_tinder_users where id = ?");
             stmt.setInt(1, userId);
             ResultSet rSet = stmt.executeQuery();
             if (rSet.next()) {
@@ -90,7 +90,7 @@ public class UserDAO_SQL implements DAO<User> {
     public void remove(int id) { // TODO перехват ElementNotFoundInDbException
         try {
             get(id);
-            PreparedStatement stmt = conn.prepareStatement("DELETE from alex_grig_users where id = ?");
+            PreparedStatement stmt = conn.prepareStatement("DELETE from ag_tinder_users where id = ?");
             stmt.setInt(1, id);
             stmt.execute();
 
@@ -104,7 +104,7 @@ public class UserDAO_SQL implements DAO<User> {
         int count = 0;
         try {
             Statement stmt = conn.createStatement();
-            String query = "select count(*) from alex_grig_users";
+            String query = "select count(*) from ag_tinder_users";
             ResultSet resultSet = stmt.executeQuery(query);
             while(resultSet.next()){
                count = resultSet.getInt("COUNT(*)");

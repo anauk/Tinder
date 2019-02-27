@@ -19,7 +19,7 @@ public class MessagesDAO_SQL implements DAO<MessageItem> {
     @Override
     public void add(MessageItem item) {
         try {
-            PreparedStatement stmt = conn.prepareStatement("insert into alex_grig_messages(user1_id, user2_id, message) values (?, ?, ?)");
+            PreparedStatement stmt = conn.prepareStatement("insert into ag_tinder_messages(user1_id, user2_id, message) values (?, ?, ?)");
             stmt.setInt(1, item.getUser1_id());
             stmt.setInt(2, item.getUser2_id());
             stmt.setString(3, item.getMessage());
@@ -33,7 +33,7 @@ public class MessagesDAO_SQL implements DAO<MessageItem> {
     public List<MessageItem> getAll() {
         List<MessageItem> messages = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM alex_grig_messages";
+            String sql = "SELECT * FROM ag_tinder_messages";
             PreparedStatement stm = conn.prepareStatement(sql);
             ResultSet rSet = stm.executeQuery();
             while (rSet.next()) {
@@ -57,7 +57,7 @@ public class MessagesDAO_SQL implements DAO<MessageItem> {
     @Override // TODO перехват ElementNotFoundInDbException
     public MessageItem get(int id) {
         try {
-            PreparedStatement stmt = conn.prepareStatement("select * from alex_grig_messages where id = ?");
+            PreparedStatement stmt = conn.prepareStatement("select * from ag_tinder_messages where id = ?");
             stmt.setInt(1, id);
             ResultSet rSet = stmt.executeQuery();
             if (rSet.next()) {
@@ -80,7 +80,7 @@ public class MessagesDAO_SQL implements DAO<MessageItem> {
     public void remove(int id) {
         try {
             get(id);
-            PreparedStatement stmt = conn.prepareStatement("delete from alex_grig_messages where id = ?");
+            PreparedStatement stmt = conn.prepareStatement("delete from ag_tinder_messages where id = ?");
             stmt.setInt(1, id);
             stmt.execute();
 
@@ -94,7 +94,7 @@ public class MessagesDAO_SQL implements DAO<MessageItem> {
         int count = 0;
         try {
             Statement stmt = conn.createStatement();
-            String query = "select count(*) from alex_grig_messages";
+            String query = "select count(*) from ag_tinder_messages";
             ResultSet resultSet = stmt.executeQuery(query);
             while(resultSet.next()){
                 count = resultSet.getInt("COUNT(*)");
@@ -110,10 +110,12 @@ public class MessagesDAO_SQL implements DAO<MessageItem> {
     public List<MessageItemExtra> getByUser(int user1_id, int user2_id) {
         List<MessageItemExtra> messages = new ArrayList<>();
         try {
-            String sql = "select * from alex_grig_messages join alex_grig_users on alex_grig_messages.user1_id = alex_grig_users.userId join alex_grig_users on alex_grig_messages.user2_id = alex_grig_users.userId where user1_id =? user2_id = ?";
+            String sql = "select * from ag_tinder_messages join ag_tinder_users on ag_tinder_messages.user1_id = ag_tinder_users.id join ag_tinder_users on ag_tinder_messages.user2_id = ag_tinder_users.id where (user1_id =? AND user2_id = ?) or (user1_id =? AND user2_id = ?) order by time ASC";
             PreparedStatement stm = conn.prepareStatement(sql);
             stm.setInt(1, user1_id);
             stm.setInt(2, user2_id);
+            stm.setInt(3, user2_id);
+            stm.setInt(4, user1_id);
             ResultSet rSet = stm.executeQuery();
             while (rSet.next()) {
                 MessageItemExtra item = new MessageItemExtra(

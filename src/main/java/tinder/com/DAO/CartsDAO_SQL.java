@@ -19,9 +19,9 @@ public class CartsDAO_SQL implements DAO<CartItem> {
     @Override
     public void add(CartItem elem) {
         try {
-            PreparedStatement stmt = conn.prepareStatement("insert into alex_grig_carts(user_id, item_id, quantity) values (?, ?, ?)");
+            PreparedStatement stmt = conn.prepareStatement("insert into ag_tinder_liked(user1_id, user2_id, sympathy) values (?, ?, ?)");
             stmt.setInt(1, elem.getUser1_id());
-            stmt.setInt(2, elem.getItem2_id());
+            stmt.setInt(2, elem.getUser2_id());
             stmt.setBoolean(3, elem.getSympathy());
             stmt.execute();
         } catch (SQLException e) {
@@ -33,7 +33,7 @@ public class CartsDAO_SQL implements DAO<CartItem> {
     public List<CartItem> getAll() {
         List<CartItem> goods = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM alex_grig_carts";
+            String sql = "SELECT * FROM ag_tinder_liked";
             PreparedStatement stm = conn.prepareStatement(sql);
             ResultSet rSet = stm.executeQuery();
             while (rSet.next()) {
@@ -56,7 +56,7 @@ public class CartsDAO_SQL implements DAO<CartItem> {
     @Override
     public CartItem get(int id) {  // TODO перехват ElementNotFoundInDbException
         try {
-            PreparedStatement stmt = conn.prepareStatement("select * from alex_grig_carts where id = ?");
+            PreparedStatement stmt = conn.prepareStatement("select * from ag_tinder_liked where id = ?");
             stmt.setInt(1, id);
             ResultSet resultSet = stmt.executeQuery();
             if (resultSet.next()) {
@@ -78,7 +78,7 @@ public class CartsDAO_SQL implements DAO<CartItem> {
     public void remove(int id) {
         try {
             get(id);
-            PreparedStatement stmt = conn.prepareStatement("delete from alex_grig_carts where id = ?");
+            PreparedStatement stmt = conn.prepareStatement("delete from ag_tinder_liked where id = ?");
             stmt.setInt(1, id);
             stmt.execute();
 
@@ -91,7 +91,7 @@ public class CartsDAO_SQL implements DAO<CartItem> {
     public boolean isEmpty() {
         int count = 0;
         try (Statement stmt = conn.createStatement()) {
-            String query = "select count(*) from alex_grig_carts";
+            String query = "select count(*) from ag_tinder_liked";
             ResultSet resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
                 count = resultSet.getInt("COUNT(*)");
@@ -104,12 +104,10 @@ public class CartsDAO_SQL implements DAO<CartItem> {
     }
 
     // TODO перехват IllegalArgumentException
-    public void setQuantity(int quantity, int id) {
-        if (quantity <= 1) {
-            throw new IllegalArgumentException("Quantity must be 1 or more");
-        }
-        try (PreparedStatement stmt = conn.prepareStatement("UPDATE alex_grig_carts SET quantity = ? WHERE id = ?")) {
-            stmt.setInt(1, quantity);
+    public void setSympathy(boolean sympathy, int id) {
+
+        try (PreparedStatement stmt = conn.prepareStatement("UPDATE ag_tinder_liked SET sympathy = ? WHERE id = ?")) {
+            stmt.setBoolean(1, sympathy);
             stmt.setInt(2, id);
             stmt.execute();
         } catch (SQLException e) {
@@ -118,11 +116,11 @@ public class CartsDAO_SQL implements DAO<CartItem> {
     }
 
 
-    public List<CartItemExtra> getByUser(int user_id) {
+    public List<CartItemExtra> getByUser(int user1_id) {
         ArrayList<CartItemExtra> cartItems = new ArrayList<>();
 
-        try (PreparedStatement stmt = conn.prepareStatement("select * from alex_grig_carts join alex_grig_goods on alex_grig_carts.item_id = alex_grig_goods.itemId where user_id =?")) {
-            stmt.setInt(1, user_id);
+        try (PreparedStatement stmt = conn.prepareStatement("select * from ag_tinder_liked join ag_tinder_users on ag_tinder_liked.user2_id = ag_tinder_users.id where user1_id =?")) {
+            stmt.setInt(1, user1_id);
             ResultSet rSet = stmt.executeQuery();
             while (rSet.next()) {
                 CartItemExtra item = new CartItemExtra(
@@ -132,7 +130,7 @@ public class CartsDAO_SQL implements DAO<CartItem> {
                         rSet.getBoolean("sympathy"),
                         rSet.getString("name"),
                         rSet.getString("occupation"),
-                        rSet.getInt("itemPrice")
+                        rSet.getString("photo")
                 );
                 cartItems.add(item);
             }
