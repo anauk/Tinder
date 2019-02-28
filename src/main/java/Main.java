@@ -34,17 +34,18 @@ public class Main {
         CartService cartService = new CartService(carts);
         CookieProcessor cp = new CookieProcessor(cookieName, userService);
         CartServlet cartServlet = new CartServlet(cartService, userService, cp);
-        ServletUserList servletUserList = new ServletUserList(userService, messagesService, cartService, cp);
+        ServletUserList servletUserList = new ServletUserList(userService, cartService, cp);
         ServletRegistration servletRegistration = new ServletRegistration(userService);
         ServletLogin servletLogin = new ServletLogin();
-        ServletLogout servletLogout = new ServletLogout();
+        ServletChat servletChat = new ServletChat(cartService, userService, messagesService, cp);
+
         AssetsServlet assetsServlet = new AssetsServlet();
 
         handler.addServlet(new ServletHolder(servletUserList), "/users");
         handler.addServlet(new ServletHolder(servletRegistration), "/registration");
         handler.addServlet(new ServletHolder(servletLogin), "/login");
-        handler.addServlet(new ServletHolder(servletLogout), "/logout");
         handler.addServlet(new ServletHolder(cartServlet), "/liked");
+        handler.addServlet(new ServletHolder(servletChat), "/chat/*");
         handler.addServlet(new ServletHolder(assetsServlet), "/assets/*");
 
         handler.addFilter(new FilterHolder(new NoUsersFilter(userService)), "/login", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));

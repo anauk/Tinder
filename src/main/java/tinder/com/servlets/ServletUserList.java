@@ -25,13 +25,11 @@ import java.util.List;
 public class ServletUserList extends ServletRoot {
 
     private final UserService us;
-    private final MessagesService ms;
     private final CartService cs;
     private final CookieProcessor cp;
 
-    public ServletUserList(UserService userService, MessagesService messagesService, CartService cartService, CookieProcessor cp) {
+    public ServletUserList(UserService userService, CartService cartService, CookieProcessor cp) {
         this.us = userService;
-        this.ms = messagesService;
         this.cs = cartService;
         this.cp = cp;
     }
