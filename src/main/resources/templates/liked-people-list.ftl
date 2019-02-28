@@ -106,6 +106,10 @@
         </div>
     </div>
 </div>
-
+<form action="/liked" class="form-signin form-linked">
+    <a href="/users" class="btn btn-lg btn-primary btn-links">Go to users selection</a>
+    <input type="hidden" name="logout" class="form-control">
+    <button class="btn btn-lg btn-primary btn-links" type="submit">Log out</button>
+</form>
 </body>
 </html>

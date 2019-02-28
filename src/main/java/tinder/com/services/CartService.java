@@ -44,7 +44,11 @@ public class CartService {
         carts.setSympathy(sympathy, id);
     }
 
-    public List<CartItemExtra> getByUser(int user_id){
-        return carts.getByUser(user_id);
+    public List<CartItemExtra> getByUserAll(int user_id){
+        return carts.getByUserAll(user_id);
+    }
+
+    public List<CartItemExtra> getByUserLiked(int user_id){
+        return carts.getByUserLiked(user_id);
     }
 }

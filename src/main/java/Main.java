@@ -29,12 +29,12 @@ public class Main {
         DAO users = new UserDAO_SQL(conn);
         MessagesDAO_SQL messages = new MessagesDAO_SQL(conn);
         CartsDAO_SQL carts = new CartsDAO_SQL(conn);
-        UserService userService = new UserService(users);
+        UserService userService = new UserService(users, carts);
         MessagesService messagesService = new MessagesService(messages);
         CartService cartService = new CartService(carts);
         CookieProcessor cp = new CookieProcessor(cookieName, userService);
         CartServlet cartServlet = new CartServlet(cartService, userService, cp);
-        ServletUserList servletUserList = new ServletUserList(messagesService, cartService, cp);
+        ServletUserList servletUserList = new ServletUserList(userService, messagesService, cartService, cp);
         ServletRegistration servletRegistration = new ServletRegistration(userService);
         ServletLogin servletLogin = new ServletLogin();
         ServletLogout servletLogout = new ServletLogout();

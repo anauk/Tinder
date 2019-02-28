@@ -32,15 +32,15 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Freemarker f = new Freemarker();
-//        int user_id = -1;
-//        try {
-//            user_id = Integer.parseInt(cp.getValue(req));
-//        } catch (CookieUnavailableException | NumberFormatException e) {
-//            resp.getWriter().printf("<html> <a href=\"/login\"> You have tried to enter to liked-page in illegal way! %n %s </a></html>", e.getMessage());
-//        }
-//        String userName = userService.getUser(user_id).getLogin();
-//
-//        List<CartItemExtra> cart = cartService.getByUser(user_id);
+        int user_id = -1;
+        try {
+            user_id = Integer.parseInt(cp.getValue(req));
+        } catch (CookieUnavailableException | NumberFormatException e) {
+            resp.getWriter().printf("<html> <a href=\"/login\"> You have tried to enter to liked-page in illegal way! %n %s </a></html>", e.getMessage());
+        }
+        String userName = userService.getUser(user_id).getLogin();
+
+        List<CartItemExtra> cart = cartService.getByUserLiked(user_id);
 
         HashMap<String, Object> data = new HashMap<>();
         /*data.put("name", userName);

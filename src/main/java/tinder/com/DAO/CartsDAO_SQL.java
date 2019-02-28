@@ -116,11 +116,35 @@ public class CartsDAO_SQL implements DAO<CartItem> {
     }
 
 
-    public List<CartItemExtra> getByUser(int user1_id) {
+    public List<CartItemExtra> getByUserAll(int user1_id) {
         ArrayList<CartItemExtra> cartItems = new ArrayList<>();
 
         try (PreparedStatement stmt = conn.prepareStatement("select * from ag_tinder_liked join ag_tinder_users on ag_tinder_liked.user2_id = ag_tinder_users.id where user1_id =?")) {
             stmt.setInt(1, user1_id);
+            ResultSet rSet = stmt.executeQuery();
+            while (rSet.next()) {
+                CartItemExtra item = new CartItemExtra(
+                        rSet.getInt("id"),
+                        rSet.getInt("user1_id"),
+                        rSet.getInt("user2_id"),
+                        rSet.getBoolean("sympathy"),
+                        rSet.getString("name"),
+                        rSet.getString("occupation"),
+                        rSet.getString("photo")
+                );
+                cartItems.add(item);
+            }
+        } catch (SQLException e) {
+            throw new IllegalArgumentException("smth went wrong", e);
+        }
+        return cartItems;
+    }
+
+    public List<CartItemExtra> getByUserLiked(int user_id) {
+        ArrayList<CartItemExtra> cartItems = new ArrayList<>();
+
+        try (PreparedStatement stmt = conn.prepareStatement("select * from ag_tinder_liked join ag_tinder_users on ag_tinder_liked.user2_id = ag_tinder_users.id where user1_id =? AND sympathy = true")) {
+            stmt.setInt(1, user_id);
             ResultSet rSet = stmt.executeQuery();
             while (rSet.next()) {
                 CartItemExtra item = new CartItemExtra(

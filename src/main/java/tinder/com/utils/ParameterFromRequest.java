@@ -10,10 +10,12 @@ public class ParameterFromRequest {
     }
 
     public int getInt (String paramName){
-        if(req.getParameter(paramName) == null || req.getParameter(paramName).equals("")){
+        String number = req.getParameter(paramName);
+        if(number == null || number.equals("")){
             throw new IllegalStateException(String.format("Missing parameter %s", paramName));
         }
-        return Integer.parseInt(req.getParameter(paramName));
+
+        return Integer.parseInt(number.replaceAll("[\\s|\\u00A0]+",""));
     }
 
     public String getString (String paramName) {
