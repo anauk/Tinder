@@ -11,15 +11,12 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
           integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <!-- Bootstrap core CSS -->
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-${name}
 <div class="container">
     <div class="row">
         <div class="chat-main col-6 offset-3">
@@ -27,7 +24,7 @@ ${name}
                 <div class="row header-one text-white p-1">
                     <div class="col-md-6 name pl-2">
                         <i class="fa fa-comment"></i>
-                        <h6 class="ml-1 mb-0">Ketty Peris</h6>
+                        <h6 class="ml-1 mb-0">${name2}</h6>
                     </div>
                     <div class="col-md-6 options text-right pr-0">
                         <i class="fa fa-window-minimize hide-chat-box hover text-center pt-1"></i>
@@ -50,72 +47,29 @@ ${name}
             <div class="chat-content">
                 <div class="col-md-12 chats pt-3 pl-2 pr-3 pb-3">
                     <ul class="p-0">
-                        <li class="send-msg float-right mb-2">
-                            <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
-                                Hii
-                            </p>
-                        </li>
-                        <li class="receive-msg float-left mb-2">
-                            <div class="sender-img">
-                                <img src="http://nicesnippets.com/demo/image1.jpg" class="float-left">
-                            </div>
-                            <div class="receive-msg-desc float-left ml-2">
-                                <p class="bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded">
-                                    hiii <br>
-                                    How are you ?<br>
+                    <#list chat as chatItem>
+                        <#if chatItem.user1_id == user1_id>
+                            <li class="send-msg float-right mb-2">
+                                <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
+                                    ${chatItem.message}
                                 </p>
-                                <span class="receive-msg-time">ketty, Jan 25, 6:20 PM</span>
-                            </div>
-                        </li>
-                        <li class="send-msg float-right mb-2">
-                            <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
-                                nice <br>
-                                Are you fine ?
-                            </p>
-                        </li>
-                        <li class="receive-msg float-left mb-2">
-                            <div class="sender-img">
-                                <img src="http://nicesnippets.com/demo/image1.jpg" class="float-left">
-                            </div>
-                            <div class="receive-msg-desc float-left ml-2">
-                                <p class="bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded">
-                                    Yes always
-                                </p>
-                            </div>
-                        </li>
-                        <li class="send-msg float-right mb-2">
-                            <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
-                                <a href="https://nicesnippets.com/" class="text-dark rounded" target="_blank"><u>https://nicesnippets.com/</u></a>
-                            </p>
-                        </li>
-                        <li class="send-msg float-right mb-2">
-                            <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
-                                Byy
-                            </p>
-                            <span class="send-msg-time">1 min</span>
-                        </li>
-                        <li class="send-msg float-right mb-2">
-                            <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
-                                <a href="https://nicesnippets.com/" class="text-dark rounded" target="_blank"><u>https://nicesnippets.com/</u></a>
-                            </p>
-                        </li>
-                        <li class="send-msg float-right mb-2">
-                            <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
-                                Byy
-                            </p>
-                            <span class="send-msg-time">1 min</span>
-                        </li>
-                        <li class="send-msg float-right mb-2">
-                            <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
-                                <a href="https://nicesnippets.com/" class="text-dark rounded" target="_blank"><u>https://nicesnippets.com/</u></a>
-                            </p>
-                        </li>
-                        <li class="send-msg float-right mb-2">
-                            <p class="pt-1 pb-1 pl-2 pr-2 m-0 rounded">
-                                Byy
-                            </p>
-                            <span class="send-msg-time">1 min</span>
-                        </li>
+                                <span class="receive-msg-time">${chatItem.time}</span>
+                            </li>
+                        <#else>
+                            <li class="receive-msg float-left mb-2">
+                                <div class="sender-img">
+                                    <img src="${chatItem.user1photo}" class="float-left">
+                                </div>
+                                <div class="receive-msg-desc float-left ml-2">
+                                    <p class="bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded">
+                                        ${chatItem.message}
+                                    </p>
+                                    <span class="receive-msg-time">${name2}, ${chatItem.time}</span>
+                                </div>
+                            </li>
+                        </#if>
+                    </#list>
+
                     </ul>
                 </div>
                 <div class="col-md-12 p-2 msg-box border border-primary">
@@ -124,16 +78,27 @@ ${name}
                             <i class="fa fa-smile-o"></i>
                         </div>
                         <div class="col-md-7 pl-0">
-                            <input type="text" class="border-0" placeholder=" Send message" />
+                            <form action="/chat" method="post">
+                            <input type="text" class="border-0" placeholder="Send message" name="message"/>
+                            <input type="hidden" value="${user2_id}" name="user2_id"/>
+                            <input type="submit" style="display: none"/>
+                            </form>
                         </div>
                         <div class="col-md-3 text-right options-right">
                             <i class="fa fa-picture-o mr-2"></i>
                         </div>
                     </div>
                 </div>
+
             </div>
+            <form action="/users" class="form-signin form-linked" method="post">
+                <a href="/liked" class="btn btn-lg btn-primary btn-links">Back to liked</a>
+                <input type="hidden" name="choice" value="logout" class="form-control">
+                <button class="btn btn-lg btn-primary btn-links" type="submit">Log out</button>
+            </form>
         </div>
     </div>
+
 </div>
 
 </body>

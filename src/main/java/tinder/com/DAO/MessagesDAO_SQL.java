@@ -110,7 +110,7 @@ public class MessagesDAO_SQL implements DAO<MessageItem> {
     public List<MessageItemExtra> getByUser(int user1_id, int user2_id) {
         List<MessageItemExtra> messages = new ArrayList<>();
         try {
-            String sql = "select * from ag_tinder_messages join ag_tinder_users on ag_tinder_messages.user1_id = ag_tinder_users.id join ag_tinder_users on ag_tinder_messages.user2_id = ag_tinder_users.id where (user1_id =? AND user2_id = ?) or (user1_id =? AND user2_id = ?) order by time ASC";
+            String sql = "select * from ag_tinder_messages AS msgs join ag_tinder_users AS usrs1 on msgs.user1_id = usrs1.id join ag_tinder_users AS usrs2 on msgs.user2_id = usrs2.id where (user1_id =? AND user2_id = ?) or (user1_id =? AND user2_id = ?) order by time ASC";
             PreparedStatement stm = conn.prepareStatement(sql);
             stm.setInt(1, user1_id);
             stm.setInt(2, user2_id);
@@ -124,9 +124,10 @@ public class MessagesDAO_SQL implements DAO<MessageItem> {
                         rSet.getInt("user2_id"),
                         rSet.getString("message"),
                         rSet.getTimestamp("time"),
-                        rSet.getString("name"), // TODO одинаковый запрос!!!
-                        rSet.getString("name")    // TODO одинаковый запрос!!!
-                );
+                        rSet.getString("usrs1.name"),
+                        rSet.getString("usrs2.name"),
+                        rSet.getString("usrs1.photo")
+                        );
                 messages.add(item);
             }
 

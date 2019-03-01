@@ -375,3 +375,22 @@ input:focus{
 .btn-links {
     width: 40%;
 }
+.btn-secondary {
+    color: #fff;
+    background-color: #0057a0;
+    border-color: #0069d9;
+}
+.btn-secondary:hover {
+    background-color: #0069d9;
+    border-color: #0057a0;
+}
+.form-label {
+    padding: .75rem;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.user2-id-getter-btn {
+    display: none;
+}

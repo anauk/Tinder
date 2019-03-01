@@ -1,6 +1,5 @@
 package tinder.com.servlets;
 
-
 import com.sun.deploy.net.cookie.CookieUnavailableException;
 import tinder.com.entity.CartItemExtra;
 import tinder.com.services.CartService;
@@ -18,12 +17,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
-public class CartServlet extends HttpServlet {
+public class ServletLiked extends HttpServlet {
     private final CartService cartService;
     private final UserService userService;
     private final CookieProcessor cp;
 
-    public CartServlet(CartService cartService, UserService userService, CookieProcessor cp) {
+    public ServletLiked(CartService cartService, UserService userService, CookieProcessor cp) {
         this.cartService = cartService;
         this.userService = userService;
         this.cp = cp;
@@ -53,7 +52,15 @@ public class CartServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ParameterFromRequest pfr = new ParameterFromRequest(req);
-        int user2_id = pfr.getInt("user2_id");
-        resp.sendRedirect("/chat?user2_id="+user2_id);
+        try {
+            int user2_id = pfr.getInt("user2_id");
+            resp.sendRedirect("/chat?user2_id=" + user2_id);
+
+        } catch (IllegalStateException e) {
+            String logout = pfr.getString("logout");
+            cp.deleteCookie(resp);
+            resp.sendRedirect("/login");
+        }
+
     }
 }

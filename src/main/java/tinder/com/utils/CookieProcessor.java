@@ -6,6 +6,7 @@ import tinder.com.services.UserService;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
 public class CookieProcessor {
@@ -46,5 +47,11 @@ public class CookieProcessor {
                     }
                 });
         return result[0];
+    }
+
+    public void deleteCookie (HttpServletResponse resp){
+        Cookie cookie = new Cookie(cookieName, "");
+        cookie.setMaxAge(0);
+        resp.addCookie(cookie);
     }
 }

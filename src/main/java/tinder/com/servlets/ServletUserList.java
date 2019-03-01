@@ -15,11 +15,11 @@ import tinder.com.utils.ParameterFromRequest;
 
 import javax.servlet.ServletException;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 
 
 public class ServletUserList extends ServletRoot {
@@ -71,13 +71,22 @@ public class ServletUserList extends ServletRoot {
         } catch (CookieUnavailableException | NumberFormatException e) {
             resp.getWriter().printf("<html> <a href=\"/login\"> This case should never happen. You have tried to get user-list in illegal way! %n %s </a></html>", e.getMessage());
         }
-        int user2_id = pfr.getInt("user_id");
+        int user2_id = -1;
+        try {
+            user2_id = pfr.getInt("user_id");
+        } catch (IllegalStateException e) {
+            System.out.println("It looks like user wants to log out");
+        }
         switch (choice) {
             case "like":
                 cs.add(new CartItem(user1_id, user2_id, true));
                 break;
             case "dislike":
                 cs.add(new CartItem(user1_id, user2_id, false));
+                break;
+            case "logout":
+                cp.deleteCookie(resp);
+                resp.sendRedirect("/login");
                 break;
             default:
                 throw new IllegalArgumentException("wrong values");

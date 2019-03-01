@@ -7,6 +7,7 @@ import tinder.com.services.MessagesService;
 import tinder.com.services.UserService;
 import tinder.com.utils.CookieProcessor;
 import tinder.com.utils.Freemarker;
+import tinder.com.utils.ParameterFromRequest;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ public class ServletChat extends ServletRoot {
     private final MessagesService ms;
     private final CookieProcessor cp;
 
+
     public ServletChat(CartService cs, UserService us, MessagesService ms, CookieProcessor cp) {
         this.cs = cs;
         this.us = us;
@@ -30,6 +32,7 @@ public class ServletChat extends ServletRoot {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ParameterFromRequest pfr = new ParameterFromRequest(req);
         Freemarker f = new Freemarker();
         int user1_id = -1;
         try {
@@ -38,24 +41,42 @@ public class ServletChat extends ServletRoot {
             resp.getWriter().printf("<html> <a href=\"/login\"> You have tried to enter to liked-page in illegal way! %n %s </a></html>", e.getMessage());
         }
         String user1Name = us.getUser(user1_id).getName();
-        String u2_id = req.getParameter("user2_id");
 
-        int user2_id = Integer.parseInt(u2_id);
+        int user2_id = pfr.getInt("user2_id");
         String user2Name = us.getUser(user2_id).getName();
-        System.out.println(user1Name + user2Name);
 
-//        List<MessageItemExtra> chat = ms.getByUser(user1_id, -2047788770);
+        List<MessageItemExtra> chat = ms.getByUser(user1_id, user2_id);
 
         HashMap<String, Object> data = new HashMap<>();
-        data.put("name", user1Name);
-//        data.put("id", user2_id);
-//        data.put("chat", chat);
+        data.put("user1_id", user1_id);
+        data.put("user2_id", user2_id);
+        data.put("name1", user1Name);
+        data.put("name2", user2Name);
+        data.put("chat", chat);
 
         f.render("chat.ftl", data, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        ParameterFromRequest pfr = new ParameterFromRequest(req);
+        int user1_id = -1;
+        try {
+            user1_id = Integer.parseInt(cp.getValue(req));
+        } catch (CookieUnavailableException | NumberFormatException e) {
+            resp.getWriter().printf("<html> <a href=\"/login\"> You have tried to enter to liked-page in illegal way! %n %s </a></html>", e.getMessage());
+        }
+
+        try {
+            String message = pfr.getString("message");
+            int user2_id = pfr.getInt("user2_id");
+            ms.addMessage(user1_id, user2_id, message);
+            resp.sendRedirect("/chat?user2_id=" + user2_id);
+
+        } catch (IllegalStateException e) {
+            String logout = pfr.getString("logout");
+            cp.deleteCookie(resp);
+            resp.sendRedirect("/login");
+        }
     }
 }

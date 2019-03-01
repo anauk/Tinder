@@ -18,6 +18,12 @@ import javax.servlet.DispatcherType;
 import java.sql.Connection;
 import java.util.EnumSet;
 
+//TODO переделать switch в ServletUserList
+//TODO что за ошибки присылает гитлаб???
+
+//TODO сделать расширяемое поле ввода текста, перенос слов
+//TODO сделать красивый вывод сообщений об ошибочном вводе
+
 public class Main {
     public static void main(String[] args) throws Exception {
         ServletContextHandler handler = new ServletContextHandler();
@@ -33,7 +39,7 @@ public class Main {
         MessagesService messagesService = new MessagesService(messages);
         CartService cartService = new CartService(carts);
         CookieProcessor cp = new CookieProcessor(cookieName, userService);
-        CartServlet cartServlet = new CartServlet(cartService, userService, cp);
+        ServletLiked cartServlet = new ServletLiked(cartService, userService, cp);
         ServletUserList servletUserList = new ServletUserList(userService, cartService, cp);
         ServletRegistration servletRegistration = new ServletRegistration(userService);
         ServletLogin servletLogin = new ServletLogin();
@@ -59,6 +65,9 @@ public class Main {
         handler.addFilter(new FilterHolder(new HasCookiesFilter()), "/users", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
         handler.addFilter(new FilterHolder(new HasMyCookieFilter()), "/users", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
         handler.addFilter(new FilterHolder(new CookieMatchFilter(cp)), "/users", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new HasCookiesFilter()), "/chat/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new HasMyCookieFilter()), "/chat/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new CookieMatchFilter(cp)), "/chat/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
 
 
         Server server = new Server(80);

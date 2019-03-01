@@ -11,11 +11,9 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
           integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <!-- Bootstrap core CSS -->
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body style="background-color: #f5f5f5;">
@@ -51,9 +49,9 @@
     </div>
 </div>
 
-<form action="/users" class="form-signin form-linked">
+<form action="/users" class="form-signin form-linked" method="post">
     <a href="/liked" class="btn btn-lg btn-primary btn-links">Go to my liked</a>
-    <input type="hidden" name="logout" class="form-control">
+    <input type="hidden" name="choice" value="logout" class="form-control">
     <button class="btn btn-lg btn-primary btn-links" type="submit">Log out</button>
 </form>
 

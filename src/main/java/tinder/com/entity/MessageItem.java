@@ -13,7 +13,7 @@ public class MessageItem implements Identifiable {
 
 
     public MessageItem(int user1_id, int user2_id, String message) {
-        this(-1, user1_id, user2_id, message, Timestamp.valueOf("0"));
+        this(-1, user1_id, user2_id, message, Timestamp.valueOf("2000-01-01 00:00:00"));
     }
 
     public MessageItem(int id, int user1_id, int user2_id, String message, Timestamp time) {

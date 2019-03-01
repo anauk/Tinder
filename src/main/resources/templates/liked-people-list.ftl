@@ -11,11 +11,9 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
           integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
     <!-- Bootstrap core CSS -->
-    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link rel="stylesheet" href="../static/css/style.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -29,46 +27,50 @@
                 </div>
                 <div class="panel-body">
                     <div class="table-container">
-
+                    <form action="/liked" method="post">
                             <table class="table-users table" border="0">
                                 <tbody>
                              <#list cart as cartItem>
 
                                  <tr>
-                                     <td width="10">
+                                     <td width="10" style="padding: 0">
+                                         <label class="form-label" for="${cartItem.user2_id}">
                                          <div class="avatar-img">
                                              <img class="img-circle"
                                                   src="${cartItem.photo}"/>  
                                          </div>
-
+                                         </label>
                                      </td>
-                                     <td class="align-middle">
+                                     <td class="align-middle" style="padding: 0">
+                                         <label class="form-label" for="${cartItem.user2_id}">
                                          ${cartItem.name}
+                                         </label>
                                      </td>
-                                     <td class="align-middle">
+                                     <td class="align-middle" style="padding: 0">
+                                         <label class="form-label" for="${cartItem.user2_id}">
                                          ${cartItem.occupation}
+                                         </label>
                                      </td>
-                                     <td class="align-middle">
-                                         <form action="/liked" method="post">
-                                             <input type="hidden" value="${cartItem.user2_id}" name="user2_id">
-                                             <button type="submit">open chat</button>
-                                         </form>
+                                     <td class="align-middle" style="padding: 0">
+                                         <label class="form-label" for="${cartItem.user2_id}">
+                                         </label>
+                                             <button type="submit" value="${cartItem.user2_id}" name="user2_id" class="user2-id-getter-btn" id="${cartItem.user2_id}">open chat</button>
                                      </td>
                                  </tr>
 
                              </#list>
                                 </tbody>
                             </table>
-
+                    </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<form action="/liked" class="form-signin form-linked">
+<form action="/liked" class="form-signin form-linked" method="post">
     <a href="/users" class="btn btn-lg btn-primary btn-links">Go to users selection</a>
-    <input type="hidden" name="logout" class="form-control">
+    <input type="hidden" name="logout" value="logout" class="form-control">
     <button class="btn btn-lg btn-primary btn-links" type="submit">Log out</button>
 </form>
 </body>
