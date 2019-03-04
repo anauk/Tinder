@@ -2,6 +2,7 @@ package tinder.com.services;
 
 
 import tinder.com.DAO.CartsDAO_SQL;
+import tinder.com.DAO.DAOextra_SQL;
 import tinder.com.Interface.DAO;
 import tinder.com.entity.CartItemExtra;
 import tinder.com.entity.User;
@@ -13,10 +14,12 @@ import java.util.Optional;
 public class UserService {
     private final DAO<User> users;
     private final CartsDAO_SQL carts;
+    private final DAOextra_SQL daoExtra;
 
-    public UserService(DAO users, CartsDAO_SQL carts) {
+    public UserService(DAO users, CartsDAO_SQL carts, DAOextra_SQL daoExtra) {
         this.users = users;
         this.carts = carts;
+        this.daoExtra = daoExtra;
     }
 
     public void addUser(User user) { // TODO перехват LoginMatchException
@@ -49,6 +52,8 @@ public class UserService {
         return users.isEmpty();
     }
 
+
+// filtration by downloading whole the list of users and selected users:
     public User getUserUnchecked(int user_id) throws NoNewUsersException {
         if (users.isEmpty()) {
             throw new NoNewUsersException("No users in database");
@@ -68,5 +73,15 @@ public class UserService {
             }
         }
         throw new NoNewUsersException("No new users to show");
+    }
+
+    // optimized filtration on the level of db query:
+    public User getUserUnchecked(int user_id, int user_per_page) throws NoNewUsersException {
+        if(daoExtra.getByUser(user_id, user_per_page).size() != 0){
+            return daoExtra.getByUser(user_id, user_per_page).get(0);
+        }
+        else {
+            throw new NoNewUsersException ("No new users to show");
+        }
     }
 }

@@ -3,6 +3,7 @@ import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import tinder.com.DAO.CartsDAO_SQL;
+import tinder.com.DAO.DAOextra_SQL;
 import tinder.com.DAO.MessagesDAO_SQL;
 import tinder.com.DAO.UserDAO_SQL;
 import tinder.com.Interface.DAO;
@@ -19,10 +20,14 @@ import java.sql.Connection;
 import java.util.EnumSet;
 
 //TODO переделать switch в ServletUserList
+//TODO переделать параметры на адрес???
 //TODO что за ошибки присылает гитлаб???
+//TODO запрос с offset, limit (offset(pagesize(pageNum)), limit pagesize) - order by
+//TODO DAOextra для кросс-табличных запросов
+//TODO timestanp и часовой пояс - запрос юзеру на часовой пояс, часовой сдвиг. Хранить UTC
 
 //TODO сделать расширяемое поле ввода текста, перенос слов
-//TODO сделать красивый вывод сообщений об ошибочном вводе
+//TODO сделать красивый вывод сообщений об ошибочном вводе - через фримаркер, доп блок в ftl
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -35,7 +40,8 @@ public class Main {
         DAO users = new UserDAO_SQL(conn);
         MessagesDAO_SQL messages = new MessagesDAO_SQL(conn);
         CartsDAO_SQL carts = new CartsDAO_SQL(conn);
-        UserService userService = new UserService(users, carts);
+        DAOextra_SQL daoExtra = new DAOextra_SQL(conn);
+        UserService userService = new UserService(users, carts, daoExtra);
         MessagesService messagesService = new MessagesService(messages);
         CartService cartService = new CartService(carts);
         CookieProcessor cp = new CookieProcessor(cookieName, userService);
@@ -74,6 +80,8 @@ public class Main {
         server.setHandler(handler);
         server.start();
         server.join();
+
+
 
     }
 

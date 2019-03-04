@@ -46,7 +46,7 @@ public class ServletUserList extends ServletRoot {
         }
 
         try {
-            User user = us.getUserUnchecked(id);
+            User user = us.getUserUnchecked(id, 1);
             data.put("style", "");
             data.put("user_photo", user.getPhoto());
             data.put("user_name", user.getName());
