@@ -394,3 +394,6 @@ input:focus{
 .user2-id-getter-btn {
     display: none;
 }
+.message-area{
+    width: 100%;
+}

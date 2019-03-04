@@ -15,7 +15,10 @@
 
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="assets/css/style.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+
 </head>
+
 <body>
 <div class="container">
     <div class="row">
@@ -73,21 +76,13 @@
                     </ul>
                 </div>
                 <div class="col-md-12 p-2 msg-box border border-primary">
-                    <div class="row">
-                        <div class="col-md-2 options-left">
-                            <i class="fa fa-smile-o"></i>
-                        </div>
-                        <div class="col-md-7 pl-0">
-                            <form action="/chat" method="post">
-                            <input type="text" class="border-0" placeholder="Send message" name="message"/>
+
+                            <form action="/chat" method="post" class="chat-form">
+                            <textarea type="text" class="border-0 message-area" id="messageArea" placeholder="Send message" name="message"></textarea>
                             <input type="hidden" value="${user2_id}" name="user2_id"/>
                             <input type="submit" style="display: none"/>
                             </form>
-                        </div>
-                        <div class="col-md-3 text-right options-right">
-                            <i class="fa fa-picture-o mr-2"></i>
-                        </div>
-                    </div>
+
                 </div>
 
             </div>
@@ -101,5 +96,15 @@
 
 </div>
 
+<script>
+    $("#messageArea").keypress(function (e) {
+        if(e.which == 13 && !e.shiftKey) {
+            $(this).closest("form").submit();
+            // $(this).val("");
+            e.preventDefault();
+            return false;
+        }
+    });
+</script>
 </body>
 </html>
