@@ -1,8 +1,7 @@
-
 create table if not exists ag_tinder_users
 (
 	id int not null,
-	name varchar(32) null,
+	name varchar(128) null,
 	occupation varchar(256) null,
 	login varchar(128) null,
 	password varchar(32) null,

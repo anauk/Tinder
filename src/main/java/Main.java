@@ -19,13 +19,23 @@ import javax.servlet.DispatcherType;
 import java.sql.Connection;
 import java.util.EnumSet;
 
-//TODO переделать switch в ServletUserList
+//TODO переделать switch в ServletUserList???
 //TODO переделать параметры на адрес???
+//TODO что за ошибки присылает гитлаб???
+//TODO com.sun.deploy.net.cookie.CookieUnavailableException - почему не находит класс при распаковке из jar?
+
+//TODO больше юзеров в ДБ
+//TODO всплывающее окно чата?
+//TODO исправление порта для Хироку - считывать порт???
+// https://help.heroku.com/P1AVPANS/why-is-my-node-js-app-crashing-with-an-r10-error
+// https://devcenter.heroku.com/articles/preparing-a-codebase-for-heroku-deployment#4-listen-on-the-correct-port
+
+
 //TODO что за ошибки присылает гитлаб???
 
 //TODO timestanp и часовой пояс - запрос юзеру на часовой пояс, часовой сдвиг. Хранить UTC
 
-//TODO com.sun.deploy.net.cookie.CookieUnavailableException - почему не находит класс при распаковке из jar?
+
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -78,9 +88,6 @@ public class Main {
         server.setHandler(handler);
         server.start();
         server.join();
-
-
-
     }
 
 }
