@@ -30,6 +30,9 @@
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     <a href="/registration" class="btn btn-lg btn-secondary btn-block" >Registration</a>
+    <#if error ??>
+        <p class="error-message">${error}</p>
+    </#if>
     <p class="mt-5 mb-3 text-muted">&copy; Tinder 2018</p>
 </form>
 </body>

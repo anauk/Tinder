@@ -1,7 +1,8 @@
 package com.tinder.servlets;
 
 
-import com.sun.deploy.net.cookie.CookieUnavailableException;
+//import com.sun.deploy.net.cookie.CookieUnavailableException;
+import com.tinder.exceptions.CookieUnavailableException;
 import com.tinder.entity.CartItem;
 import com.tinder.entity.User;
 import com.tinder.exceptions.NoNewUsersException;

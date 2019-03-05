@@ -397,3 +397,8 @@ input:focus{
 .message-area{
     width: 100%;
 }
+.error-message {
+    text-align: center;
+    color: red;
+    font-weight: 700;
+}

@@ -7,6 +7,7 @@ import com.tinder.services.UserService;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -25,10 +26,12 @@ public class ExistingLoginFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req;
-        if (request instanceof HttpServletRequest) {
+        HttpServletResponse resp;
+        if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
             req = (HttpServletRequest) request;
+            resp = (HttpServletResponse) response;
         } else {
-            throw new IllegalArgumentException("ServletRequest should be instance of HttpServletRequest");
+            throw new IllegalArgumentException("ServletRequest and ServletResponse should be instance of HttpServletRequest and HttpServletResponse");
         }
 
         if (!HttpMethod.POST.name().equalsIgnoreCase(req.getMethod())) {
@@ -37,7 +40,7 @@ public class ExistingLoginFilter implements Filter {
         }
 
         ParameterFromRequest pfr = new ParameterFromRequest(req);
-        PrintWriter writer = response.getWriter();
+//        PrintWriter writer = response.getWriter();
         String login = pfr.getString("login").trim();
         if (users.isUsersDbEmpty()) {
             chain.doFilter(request, response);
@@ -45,8 +48,9 @@ public class ExistingLoginFilter implements Filter {
 
         try {
             users.getUser(login.hashCode());
-            String message = "The user with this login is already exist";
-            writer.printf("<html> <a href=\"/registration\"> %s </a></html>", message);
+            String error = "The user with this login is already exist";
+//            writer.printf("<html> <a href=\"/registration\"> %s </a></html>", error);
+            resp.sendRedirect("/registration?error="+error);
         } catch (ElementNotFoundInDbException e) {
             try {
                 chain.doFilter(request, response);

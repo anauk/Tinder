@@ -7,6 +7,7 @@ import com.tinder.services.UserService;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class LoginPasswordFilter implements Filter {
@@ -24,10 +25,12 @@ public class LoginPasswordFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req;
-        if (request instanceof HttpServletRequest) {
+        HttpServletResponse resp;
+        if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
             req = (HttpServletRequest) request;
+            resp = (HttpServletResponse) response;
         } else {
-            throw new IllegalArgumentException("ServletRequest should be instance of HttpServletRequest");
+            throw new IllegalArgumentException("ServletRequest and ServletResponse should be instance of HttpServletRequest and HttpServletResponse");
         }
 
         if (!HttpMethod.POST.name().equalsIgnoreCase(req.getMethod())) {
@@ -42,11 +45,12 @@ public class LoginPasswordFilter implements Filter {
 
         try {
             if (!userService.checkUserPass(login, password)) {
-                throw new IllegalArgumentException("The user login or password is incorrect");
+                throw new IllegalArgumentException("The user login or password is incorrect!");
             }
             chain.doFilter(request, response);
         } catch (IllegalArgumentException | ElementNotFoundInDbException e) {
-            response.getWriter().println("<html> <a href=\"/login\">The user login or password is incorrect</a></html>");
+//            response.getWriter().println("<html> <a href=\"/login\">The user login or password is incorrect</a></html>");
+            resp.sendRedirect("/login?error=The user login or password is incorrect!");
         }
 
     }

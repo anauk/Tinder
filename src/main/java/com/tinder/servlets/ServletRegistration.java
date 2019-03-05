@@ -2,6 +2,7 @@ package com.tinder.servlets;
 
 import com.tinder.entity.User;
 import com.tinder.services.UserService;
+import com.tinder.utils.Freemarker;
 import com.tinder.utils.ParameterFromRequest;
 
 import javax.servlet.ServletException;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 
 public class ServletRegistration extends ServletRoot {
     private UserService userService;
@@ -24,7 +26,13 @@ public class ServletRegistration extends ServletRoot {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Files.copy(Paths.get("./src/main/resources/templates/registration.html"), resp.getOutputStream());
+//        Files.copy(Paths.get("./src/main/resources/templates/registration.ftl"), resp.getOutputStream());
+        ParameterFromRequest pfr = new ParameterFromRequest(req);
+        Freemarker f = new Freemarker();
+        String error = pfr.getString("error");
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("error", error);
+        f.render("registration.ftl", data, resp);
     }
 
     @Override

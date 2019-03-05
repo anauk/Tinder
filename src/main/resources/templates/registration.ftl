@@ -23,16 +23,16 @@
     <h1 class="h3 mb-3 font-weight-normal">New user registration</h1>
 
     <label for="inputName" class="sr-only">Name</label>
-    <input type="text" name="name" id="inputName" class="form-control" placeholder="Your name" required autofocus>
+    <input type="text" name="name" id="inputName" class="form-control" placeholder="Your name" maxlength="64" required autofocus>
 
     <label for="inputOccupation" class="sr-only">Occupation</label>
-    <input type="text" name="occupation" id="inputOccupation" class="form-control" placeholder="Your occupation" required>
+    <input type="text" name="occupation" id="inputOccupation" class="form-control" maxlength="255" placeholder="Your occupation" required>
 
     <label for="inputPhoto" class="sr-only">Photo link</label>
-    <input type="text" name="photo" id="inputPhoto" class="form-control" placeholder="Link to photo" required>
+    <input type="text" name="photo" id="inputPhoto" class="form-control" maxlength="1020" placeholder="Link to photo" required>
 
     <label for="inputEmail" class="sr-only">Email address</label>
-    <input type="email" name="login" id="inputEmail" class="form-control" placeholder="Email address" required>
+    <input type="email" name="login" id="inputEmail" class="form-control" maxlength="128" placeholder="Login (your email address)" required>
 
     <label for="inputPassword" class="sr-only">Password</label>
     <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password (6 symbols min)" required>
@@ -42,6 +42,9 @@
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
     <a href="/login" class="btn btn-lg btn-secondary btn-block" >Go to login page</a>
+    <#if error ??>
+        <p class="error-message">${error}</p>
+    </#if>
     <p class="mt-5 mb-3 text-muted">&copy; Tinder 2018</p>
 </form>
 </body>

@@ -25,7 +25,7 @@ import java.util.EnumSet;
 
 //TODO timestanp и часовой пояс - запрос юзеру на часовой пояс, часовой сдвиг. Хранить UTC
 
-//TODO сделать красивый вывод сообщений об ошибочном вводе - через фримаркер, доп блок в ftl
+//TODO com.sun.deploy.net.cookie.CookieUnavailableException - почему не находит класс при распаковке из jar?
 
 public class Main {
     public static void main(String[] args) throws Exception {

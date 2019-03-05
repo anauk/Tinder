@@ -1,6 +1,7 @@
 package com.tinder.utils;
 
-import com.sun.deploy.net.cookie.CookieUnavailableException;
+//import com.sun.deploy.net.cookie.CookieUnavailableException;
+import com.tinder.exceptions.CookieUnavailableException;
 import com.tinder.exceptions.ElementNotFoundInDbException;
 import com.tinder.services.UserService;
 
