@@ -1,11 +1,16 @@
 package tinder.com.Interface;
 
-import java.util.Collection;
+import tinder.com.entity.MessageItem;
+
+import java.util.List;
 
 public interface DAO<T> {
     T get(int id);
-    void put (T entity);
-    Collection<T> all();
+
+    List<T> all();
+
+    void add(T elem);
 
     void remove(int id);
+    boolean isEmpty();
 }

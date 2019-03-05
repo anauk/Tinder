@@ -1,8 +1,15 @@
 package tinder.com.servlets;
 
+import com.sun.deploy.net.cookie.CookieUnavailableException;
+import tinder.com.entity.CartItem;
 import tinder.com.entity.User;
-import tinder.com.freemarker.Freemarker;
-import tinder.com.impl.DAOUserSQL;
+import tinder.com.exceptions.NoNewUsersException;
+import tinder.com.service.CartService;
+import tinder.com.service.UserService;
+import tinder.com.utils.CookieProcessor;
+import tinder.com.utils.Freemarker;
+import tinder.com.impl.UserDAO_SQl;
+import tinder.com.utils.ParameterFromRequest;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,23 +18,76 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.HashMap;
+import java.util.NoSuchElementException;
 
 public class UsersServlet extends HttpServlet {
-    private Connection conn;
-    private Freemarker f;
-    private HashMap<String,Object> data = new HashMap<>();
+    private final UserService us;
+    private final CookieProcessor cp;
+    private final CartService cs;
 
-    public UsersServlet(Connection conn, Freemarker f) {
-        this.conn = conn;
-        this.f = f;
+
+    public UsersServlet(UserService us, CookieProcessor cp, CartService cs) {
+        this.us = us;
+        this.cp = cp;
+        this.cs = cs;
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        User user = new DAOUserSQL(conn).get(1);
-
-        data.put("name1", user.getName());
-
+        Freemarker f = new Freemarker();
+        HashMap<String,Object> data = new HashMap<>();
+        int id = -1;
+        try {
+            id = Integer.parseInt(cp.getValue(req));
+        } catch (CookieUnavailableException | NumberFormatException e) {
+            resp.getWriter().printf("<html> <a href=\"/login\"> This case should never happen. You have tried to get user-list in illegal way! %n %s </a></html>", e.getMessage());
+        }
+        try {
+            User user = us.getUserUnchecked(id, 1);
+            data.put("style", "");
+            data.put("photo", user.getPhoto());
+            data.put("name1", user.getName());
+            data.put("id", user.getId());
+        } catch(NoNewUsersException e){
+            data.put("style", "style='display: none'");
+            data.put("photo", "");
+            data.put("name1", e.getMessage());
+            data.put("id","");
+        }
         f.render("like-page.ftl", data, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ParameterFromRequest pfr = new ParameterFromRequest(req);
+        String choice = pfr.getStr("choice");
+        int id1 = -1;
+        try{
+            id1 = Integer.parseInt(cp.getValue(req));
+        } catch (CookieUnavailableException | NumberFormatException e){
+            resp.getWriter().printf("<html> <a href=\"/login\"> This case should never happen. You have tried to get user-list in illegal way! %n %s </a></html>", e.getMessage());
+        }
+
+        int id2 = -1;
+        try {
+            id2 = pfr.getInt("id");
+        } catch(IllegalStateException e){
+            System.out.println("It looks like user wants to log out");
+        }
+        switch(choice){
+            case "like":
+                cs.addCart(new CartItem(id1, id2, true));
+                break;
+            case "dislike":
+                cs.addCart(new CartItem(id1, id2, false));
+                break;
+            case "logout":
+                cp.deleteCookie(resp);
+                resp.sendRedirect("/login");
+                default:
+                    throw new IllegalArgumentException("Wrong values");
+        }
+        doGet(req, resp);
+
     }
 }

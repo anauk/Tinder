@@ -1,4 +1,6 @@
-package tinder.com.servlets;
+package tinder.com.utils;
+
+import tinder.com.utils.ParameterFromRequest;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -8,8 +10,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class AssertServlet extends HttpServlet {
-    private final String ASSERT_ROOT = "./src/main/resources/assert/css";
+public class TemplatesServlet extends HttpServlet {
+    private final String ASSERT_ROOT = "./src/main/resources/templates";
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Files.copy(Paths.get(ASSERT_ROOT, req.getPathInfo()), resp.getOutputStream());

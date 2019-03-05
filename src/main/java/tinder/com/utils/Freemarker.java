@@ -1,4 +1,4 @@
-package tinder.com.freemarker;
+package tinder.com.utils;
 
 import freemarker.template.Configuration;
 import freemarker.template.TemplateException;
@@ -26,6 +26,10 @@ public class Freemarker {
             }
 
         }};
+    }
+
+    public Freemarker() {
+        this("src/main/resources/templates");
     }
 
     public void render(final String templateFile, final HttpServletResponse resp) throws IOException {

@@ -3,30 +3,42 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import tinder.com.Interface.UserStorage;
 import tinder.com.dataBase.DBConnection;
-import tinder.com.freemarker.Freemarker;
-import tinder.com.impl.UserStoragImpl;
-import tinder.com.servlets.AssertServlet;
-import tinder.com.servlets.HelloServlet;
-import tinder.com.servlets.LoginServlet;
-import tinder.com.servlets.UsersServlet;
+import tinder.com.entity.CookiesNames;
+import tinder.com.impl.*;
+import tinder.com.service.CartService;
+import tinder.com.service.MessagesService;
+import tinder.com.utils.CookieProcessor;
+import tinder.com.utils.Freemarker;
+import tinder.com.service.UserService;
+import tinder.com.servlets.*;
+import tinder.com.utils.TemplatesServlet;
 
 import java.sql.Connection;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        ServletContextHandler handler = new ServletContextHandler();
-        UserStorage security = new UserStoragImpl();
+        String cookieName = CookiesNames.TINDER.getName();
         Connection connection = new DBConnection().connection();
-        Freemarker f = new Freemarker("src/main/resources/templates");
+        ServletContextHandler handler = new ServletContextHandler();
 
-        handler.addServlet(AssertServlet.class, "/assert/*");
+        UserService userService = new UserService(new UserDAO_SQl(connection), new CartsDAO_SQl(connection), new DAOextra_SQL(connection));
+        CookieProcessor cu = new CookieProcessor(cookieName, userService);
+        CartService cartService = new CartService(new CartsDAO_SQl(connection));
+        MessagesService messagesService = new MessagesService(new MessagesDAO_SQl(connection));
 
-        handler.addServlet(new ServletHolder(new HelloServlet()), "/hello/*");
-        handler.addServlet(new ServletHolder(new UsersServlet(connection, f)), "/users/*");
-        handler.addServlet(new ServletHolder(new LoginServlet(security, connection, f)), "/login/*");
+        handler.addServlet(TemplatesServlet.class, "/templates/*");
 
-        //handler.addFilter(LoginFilter.class, "/reg/*", EnumSet.of(DispatcherType.INCLUDE,DispatcherType.REQUEST));
-        //handler.addFilter(AuthFilter.class, "/auth/*", EnumSet.of(DispatcherType.INCLUDE,DispatcherType.REQUEST));
+        handler.addServlet(new ServletHolder(new HelloServlet()), "/hello");
+        handler.addServlet(new ServletHolder(new UsersServlet(userService, cu, cartService)), "/users");
+        handler.addServlet(new ServletHolder(new LoginServlet()), "/login");
+        handler.addServlet(new ServletHolder(new AuthServlet(userService)), "/auth");
+        handler.addServlet(new ServletHolder(new LogoutServlet()), "/logout");
+        handler.addServlet(new ServletHolder(new ChatServlet(cartService, userService, messagesService, cu)), "/chat");
+        handler.addServlet(new ServletHolder(new LikedServlet(cartService, userService, cu)), "/liked");
+
+        //handler.addFilter(new FilterHolder(new LoginPasswordFilter(userService)), "/login", EnumSet.of(DispatcherType.INCLUDE,DispatcherType.REQUEST));
+
+
 
         Server server = new Server(80);
         server.setHandler(handler);
@@ -34,4 +46,6 @@ public class Main {
         server.join();
 
     }
+
+
 }

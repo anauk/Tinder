@@ -3,22 +3,44 @@ package tinder.com.entity;
 public class User {
     private int id;
     private String name;
+    private String photo;
+    private String occupation;
     private String login;
     private String password;
 
     public User() {
 
     }
-    public User(String name, String login, String password) {
+    public User(String name, String login, String password, String oc, String photo) {
         this.name = name;
+        this.photo = photo;
+        this.occupation = oc;
         this.login = login;
         this.password = password;
     }
-    public User(int id, String name, String login, String password) {
+    public User(int id, String name, String login, String password, String oc, String photo) {
         this.id = login.hashCode();
         this.name = name;
+        this.photo = photo;
+        this.occupation = oc;
         this.login = login;
         this.password = password;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getOccupation() {
+        return occupation;
+    }
+
+    public void setOccupation(String occupation) {
+        this.occupation = occupation;
     }
 
     public String getPassword() {
@@ -58,6 +80,8 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", photo='" + photo + '\'' +
+                ", occupation='" + occupation + '\'' +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 '}';
