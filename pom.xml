@@ -45,10 +45,18 @@
     </dependencies>
 
     <build>
-        <defaultGoal>install</defaultGoal>
+        <!--<defaultGoal>clean install</defaultGoal>-->
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
                     <finalName>tinder</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
@@ -76,13 +84,13 @@
                 <artifactId>heroku-maven-plugin</artifactId>
                 <version>2.0.7</version>
                 <configuration>
-                    <appName>Tinder-step</appName>
+                    <appName>tinder-step</appName>
                     <includeTarget>false</includeTarget>
                     <includes>
                         <include>target/tinder.jar</include>
                     </includes>
                     <processTypes>
-                        <web>java -jar target/tinder.jar</web>
+                        <web>java -jar target/tinder.jar $PORT</web>
                         <!--<web>java $JAVA_OPTS -cp target/classes:target/dependency/* Main</web>-->
                     </processTypes>
                 </configuration>

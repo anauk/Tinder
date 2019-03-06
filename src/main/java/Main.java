@@ -24,12 +24,7 @@ import java.util.EnumSet;
 //TODO что за ошибки присылает гитлаб???
 //TODO com.sun.deploy.net.cookie.CookieUnavailableException - почему не находит класс при распаковке из jar?
 
-//TODO больше юзеров в ДБ
 //TODO всплывающее окно чата?
-//TODO исправление порта для Хироку - считывать порт???
-// https://help.heroku.com/P1AVPANS/why-is-my-node-js-app-crashing-with-an-r10-error
-// https://devcenter.heroku.com/articles/preparing-a-codebase-for-heroku-deployment#4-listen-on-the-correct-port
-
 
 //TODO что за ошибки присылает гитлаб???
 
@@ -58,9 +53,10 @@ public class Main {
         ServletRegistration servletRegistration = new ServletRegistration(userService);
         ServletLogin servletLogin = new ServletLogin();
         ServletChat servletChat = new ServletChat(cartService, userService, messagesService, cp);
+        ServletMain servletMain = new ServletMain();
 
         AssetsServlet assetsServlet = new AssetsServlet();
-
+        handler.addServlet(new ServletHolder(servletMain), "");
         handler.addServlet(new ServletHolder(servletUserList), "/users");
         handler.addServlet(new ServletHolder(servletRegistration), "/registration");
         handler.addServlet(new ServletHolder(servletLogin), "/login");
@@ -84,7 +80,21 @@ public class Main {
         handler.addFilter(new FilterHolder(new CookieMatchFilter(cp)), "/chat/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
 
 
-        Server server = new Server(80);
+
+        String port = System.getenv().get("PORT");
+
+
+//        String port = args[0];
+//        if (args.length == 0 || port == "") {
+//            port = "80";
+//        }
+
+        if (port == null || port == "") {
+            port = "80";
+        }
+        int portInt = Integer.parseInt(port);
+
+        Server server = new Server(portInt);
         server.setHandler(handler);
         server.start();
         server.join();
