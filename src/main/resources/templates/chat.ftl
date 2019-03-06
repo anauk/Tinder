@@ -97,25 +97,32 @@
 </div>
 
 <script>
-    $("#messageArea").keypress(function (e) {
+   /* $("#messageArea").keypress(function (e) {
         if(e.which == 13 && !e.shiftKey) {
             $(this).closest("form").submit();
             // $(this).val("");
             e.preventDefault();
             return false;
         }
-    });
-/*
+    });*/
     //js vanilla:
     function submitOnEnter(event){
         if(event.which === 13 && !event.shiftKey){
-            event.target.form.dispatchEvent(new Event("submit", {cancelable: true}));
+
+            let evt = document.createEvent('Event');
+            let form = event.target.form;
+            evt.initEvent('submit', true, true);
+
+            if(form.dispatchEvent(evt))
+            {
+                form.submit();
+            }
             event.preventDefault(); // Prevents the addition of a new line in the text field (not needed in a lot of cases)
             event.target.value = "";
+            return false;
         }
     }
-    document.getElementById("messageArea").addEventListener("keypress", submitOnEnter);
-    */
+    document.getElementById("messageArea").addEventListener("keydown", submitOnEnter);
 </script>
 </body>
 </html>
