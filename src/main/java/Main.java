@@ -1,33 +1,41 @@
+import com.tinder.filters.*;
+import com.tinder.servlets.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import tinder.com.DAO.CartsDAO_SQL;
-import tinder.com.DAO.DAOextra_SQL;
-import tinder.com.DAO.MessagesDAO_SQL;
-import tinder.com.DAO.UserDAO_SQL;
-import tinder.com.Interface.DAO;
-import tinder.com.dataBase.DbConnection;
-import tinder.com.filters.*;
-import tinder.com.services.CartService;
-import tinder.com.services.MessagesService;
-import tinder.com.services.UserService;
-import tinder.com.servlets.*;
-import tinder.com.utils.CookieProcessor;
+import com.tinder.DAO.CartsDAO_SQL;
+import com.tinder.DAO.DAOextra_SQL;
+import com.tinder.DAO.MessagesDAO_SQL;
+import com.tinder.DAO.UserDAO_SQL;
+import com.tinder.Interface.DAO;
+import com.tinder.dataBase.DbConnection;
+import com.tinder.services.CartService;
+import com.tinder.services.MessagesService;
+import com.tinder.services.UserService;
+import com.tinder.utils.CookieProcessor;
 
 import javax.servlet.DispatcherType;
 import java.sql.Connection;
 import java.util.EnumSet;
 
-//TODO переделать switch в ServletUserList
+//TODO переделать switch в ServletUserList???
 //TODO переделать параметры на адрес???
 //TODO что за ошибки присылает гитлаб???
-//TODO запрос с offset, limit (offset(pagesize(pageNum)), limit pagesize) - order by
-//TODO DAOextra для кросс-табличных запросов
+//TODO com.sun.deploy.net.cookie.CookieUnavailableException - почему не находит класс при распаковке из jar?
+
+//TODO больше юзеров в ДБ
+//TODO всплывающее окно чата?
+//TODO исправление порта для Хироку - считывать порт???
+// https://help.heroku.com/P1AVPANS/why-is-my-node-js-app-crashing-with-an-r10-error
+// https://devcenter.heroku.com/articles/preparing-a-codebase-for-heroku-deployment#4-listen-on-the-correct-port
+
+
+//TODO что за ошибки присылает гитлаб???
+
 //TODO timestanp и часовой пояс - запрос юзеру на часовой пояс, часовой сдвиг. Хранить UTC
 
-//TODO сделать расширяемое поле ввода текста, перенос слов
-//TODO сделать красивый вывод сообщений об ошибочном вводе - через фримаркер, доп блок в ftl
+
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -80,9 +88,6 @@ public class Main {
         server.setHandler(handler);
         server.start();
         server.join();
-
-
-
     }
 
 }

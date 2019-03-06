@@ -1,8 +1,7 @@
-
 create table if not exists ag_tinder_users
 (
 	id int not null,
-	name varchar(32) null,
+	name varchar(128) null,
 	occupation varchar(256) null,
 	login varchar(128) null,
 	password varchar(32) null,
@@ -44,7 +43,7 @@ create table if not exists ag_tinder_messages
 	id int auto_increment,
 	user1_id int null,
 	user2_id int null,
-	message varchar(1024) null,
+	message varchar(21844) null,
 	time timestamp default CURRENT_TIMESTAMP null,
 	constraint `ag-tinder_messages_id_uindex`
 		unique (id),
