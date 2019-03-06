@@ -60,7 +60,6 @@ public class Main {
         ServletChat servletChat = new ServletChat(cartService, userService, messagesService, cp);
 
         AssetsServlet assetsServlet = new AssetsServlet();
-
         handler.addServlet(new ServletHolder(servletUserList), "/users");
         handler.addServlet(new ServletHolder(servletRegistration), "/registration");
         handler.addServlet(new ServletHolder(servletLogin), "/login");
@@ -84,7 +83,16 @@ public class Main {
         handler.addFilter(new FilterHolder(new CookieMatchFilter(cp)), "/chat/*", EnumSet.of(DispatcherType.INCLUDE, DispatcherType.REQUEST));
 
 
-        Server server = new Server(80);
+
+//        String port = System.getenv().get("PORT");
+        String port = args[0];
+
+        if (port == null || port == "") {
+            port = "80";
+        }
+        int portInt = Integer.parseInt(port);
+
+        Server server = new Server(portInt);
         server.setHandler(handler);
         server.start();
         server.join();
