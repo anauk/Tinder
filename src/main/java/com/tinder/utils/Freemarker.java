@@ -15,20 +15,22 @@ public class Freemarker {
 
     public Freemarker(String path) {
         this.config = new Configuration(Configuration.VERSION_2_3_28) {{
-            try {
-                setDirectoryForTemplateLoading(new File(path));
+//            try {
+//                setDirectoryForTemplateLoading(new File(path));
+                setClassLoaderForTemplateLoading(ClassLoader.getSystemClassLoader(),path);
                 setDefaultEncoding(String.valueOf(StandardCharsets.UTF_8));
                 setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
                 setLogTemplateExceptions(false);
                 setWrapUncheckedExceptions(true);
-            } catch (IOException e) {
-                throw new IllegalArgumentException("smth went wrong", e);
-            }
+//            } catch (IOException e) {
+//                throw new IllegalArgumentException("smth went wrong", e);
+//            }
         }};
     }
 
     public Freemarker() {
-        this("./src/main/resources/templates");
+//        this("./src/main/resources/templates");
+        this("templates");
     }
 
     public void render(final String templateFile, final Map<String, Object> data, final HttpServletResponse resp) throws IOException {

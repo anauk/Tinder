@@ -15,7 +15,7 @@ public class ParameterFromRequest {
             throw new IllegalStateException(String.format("Missing parameter %s", paramName));
         }
 
-        return Integer.parseInt(number.replaceAll("[\\s|\\u00A0]+",""));
+        return Integer.parseInt(number.replaceAll("[\\s|\\u00A0|,]+",""));
     }
 
     public String getString (String paramName) {
