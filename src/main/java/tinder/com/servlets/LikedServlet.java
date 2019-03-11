@@ -37,9 +37,11 @@ public class LikedServlet extends HttpServlet {
             resp.getWriter().printf("<html> <a href=\"/login\"> You have tried to enter to liked-page in illegal way! %n %s </a></html>", e.getMessage());
         }
         String userName = userService.getUser(id).getName();
+
         List<CartItemExtra> cart = cartService.getByUserLiked(id);
         HashMap<String, Object> data = new HashMap<>();
         data.put("name", userName);
+        System.out.println(cart);
         data.put("cart", cart);
         f.render("liked-people-list.ftl", data, resp);
     }

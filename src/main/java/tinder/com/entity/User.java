@@ -8,9 +8,7 @@ public class User {
     private String login;
     private String password;
 
-    public User() {
 
-    }
     public User(String name, String login, String password, String oc, String photo) {
         this.name = name;
         this.photo = photo;

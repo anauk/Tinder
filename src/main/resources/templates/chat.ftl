@@ -15,12 +15,19 @@
     <link href = "templates/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="templates/css/style.css">
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
 </head>
 <body>
 
 <div class="container">
     <div class="row">
+
         <div class="chat-main col-6 offset-3">
+            <form action="/users" class="form-linked" method="post">
+                <a href="/liked" class="btn btn-lg btn-light btn-links">Back to liked</a>
+                <input type="hidden" name="choice" value="logout" class="form-control">
+                <button class="btn btn-lg btn-light btn-links" type="submit">Log out</button>
+            </form>
             <div class="col-md-12 chat-header">
                 <div class="row header-one text-white p-1">
                     <div class="col-md-6 name pl-2">
@@ -82,14 +89,21 @@
                     </form>
                 </div>
             </div>
-            <form action="/users" class="form-signin form-linked" method="post">
-                <a href="/liked" class="btn btn-lg btn-primary btn-links">Back to liked</a>
-                <input type="hidden" name="choice" value="logout" class="form-control">
-                <button class="btn btn-lg btn-primary btn-links" type="submit">Log out</button>
-            </form>
+
         </div>
     </div>
 </div>
+
+<script>
+    $("#messageArea").keypress(function (e) {
+        if(e.which == 13 && !e.shiftKey) {
+            $(this).closest("form").submit();
+            // $(this).val("");
+            e.preventDefault();
+            return false;
+        }
+    });
+    </script>
 
 </body>
 </html>

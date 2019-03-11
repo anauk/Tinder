@@ -1,7 +1,7 @@
 package tinder.com.servlets;
 
 import com.sun.deploy.net.cookie.CookieUnavailableException;
-import tinder.com.entity.MessageItemExtra;
+import tinder.com.entity.MessageItem;
 import tinder.com.service.CartService;
 import tinder.com.service.MessagesService;
 import tinder.com.service.UserService;
@@ -41,11 +41,13 @@ public class ChatServlet extends HttpServlet {
             resp.getWriter().printf("<html> <a href=\"/login\"> You have tried to enter to liked-page in illegal way! %n %s </a></html>", e.getMessage());
         }
         String user1Name = us.getUser(id1).getName();
+
         int id2 = pfr.getInt("id2");
 
         String user2Name = us.getUser(id2).getName();
-        List<MessageItemExtra> chat = ms.getByUser(id1,id2);
-
+        List<MessageItem> chat = ms.getByUser(id1,id2);
+        System.out.println(user2Name);
+        System.out.println(user1Name);
         HashMap<String,Object> data = new HashMap<>();
         data.put("id1", id1);
         data.put("id2", id2);

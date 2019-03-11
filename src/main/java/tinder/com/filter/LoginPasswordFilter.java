@@ -36,7 +36,7 @@ public class LoginPasswordFilter implements Filter {
         }
 
         ParameterFromRequest pfr = new ParameterFromRequest(req);
-        String login = pfr.getStr("login");
+        String login = pfr.getStr("email");
         String password = pfr.getStr("password");
 
 
@@ -47,7 +47,7 @@ public class LoginPasswordFilter implements Filter {
             chain.doFilter(request, response);
         } catch (IllegalArgumentException | ElementNotFoundInDbException e) {
             response.getWriter().println("<html>" +
-                    "<a href=\"/login\">The user login or password is incorrect</a>" +
+                    "<a href=\"/login\">The user login or password is incorrect. Click on the link and enter correctly email or password!</a>" +
                     "</html>");
         }
     }

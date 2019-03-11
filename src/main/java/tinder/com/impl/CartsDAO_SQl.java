@@ -3,7 +3,6 @@ package tinder.com.impl;
 import tinder.com.Interface.DAO;
 import tinder.com.entity.CartItem;
 import tinder.com.entity.CartItemExtra;
-import tinder.com.entity.MessageItem;
 import tinder.com.exceptions.ElementNotFoundInDbException;
 
 import java.sql.*;
@@ -69,10 +68,10 @@ public class CartsDAO_SQl implements DAO<CartItem> {
                         resultSet.getInt("id"),
                         resultSet.getInt("id1"),
                         resultSet.getInt("id2"),
-                        resultSet.getBoolean("sympathy"),
+                        resultSet.getBoolean("sumpathy"),
                         resultSet.getString("name"),
-                        resultSet.getString("occupation"),
-                        resultSet.getString("photo")
+                        resultSet.getString("photo"),
+                        resultSet.getString("occupation")
                 );
                 cartItems.add(item);
             }
@@ -93,7 +92,7 @@ public class CartsDAO_SQl implements DAO<CartItem> {
                         resultSet.getInt("id"),
                         resultSet.getInt("id1"),
                         resultSet.getInt("id2"),
-                        resultSet.getBoolean("sympathy"),
+                        resultSet.getBoolean("sumpathy"),
                         resultSet.getString("name"),
                         resultSet.getString("occupation"),
                         resultSet.getString("photo")
@@ -110,10 +109,10 @@ public class CartsDAO_SQl implements DAO<CartItem> {
     @Override
     public void add(CartItem elem) {
         try {
-            PreparedStatement ps = conn.prepareStatement("insert into liked(id1, id2, sympathy) values (?,?,?)");
+            PreparedStatement ps = conn.prepareStatement("insert into liked(id1, id2, sumpathy) values (?,?,?)");
             ps.setInt(1, elem.getId1());
             ps.setInt(2, elem.getId2());
-            ps.setBoolean(3, elem.isSympathy());
+            ps.setBoolean(3, elem.isSumpathy());
             ps.execute();
         } catch (SQLException e) {
             throw new IllegalArgumentException("something went wrong", e);

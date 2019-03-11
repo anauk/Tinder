@@ -2,7 +2,6 @@ package tinder.com.impl;
 
 import tinder.com.Interface.DAO;
 import tinder.com.entity.MessageItem;
-import tinder.com.entity.MessageItemExtra;
 import tinder.com.exceptions.ElementNotFoundInDbException;
 
 import java.sql.*;
@@ -95,9 +94,9 @@ public class MessagesDAO_SQl implements DAO<MessageItem> {
         int count = 0;
         try {
             Statement st = conn.createStatement();
-            ResultSet resultSet = st.executeQuery("select count(*) as count from messages");
+            ResultSet resultSet = st.executeQuery("select count(*) as total from messages");
             while (resultSet.next()) {
-                count = resultSet.getInt("count");
+                count = resultSet.getInt("total");
             }
             resultSet.close();
 
@@ -109,7 +108,7 @@ public class MessagesDAO_SQl implements DAO<MessageItem> {
     public List<MessageItem> getByUser(int id1, int id2){
         ArrayList<MessageItem> messeges = new ArrayList<>();
         try{
-            PreparedStatement prs = conn.prepareStatement("select * from messages AS msgs join users AS us1 on msgs.id1 = us1.id join users AS us2 on msgs.id2 = us2.id where (id1=? AND id2=?) or (id1=? AND id2=?) order by time ASC");
+            PreparedStatement prs = conn.prepareStatement("select * from messages AS msg join users AS user1 on msg.id1 = user1.id join users AS user2 on msg.id2 = user2.id where (id1=? AND id2=?) or (id1=? AND id2=?) order by time ASC ");
             prs.setInt(1, id1);
             prs.setInt(2, id2);
             prs.setInt(3, id2);

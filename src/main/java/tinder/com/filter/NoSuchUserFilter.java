@@ -1,22 +1,18 @@
 package tinder.com.filter;
 
-import com.sun.deploy.net.cookie.CookieUnavailableException;
-import tinder.com.utils.CookieProcessor;
-
+import org.eclipse.jetty.http.HttpMethod;
+import tinder.com.service.UserService;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-/*
-** проверяет наличие правильного значения у куки, когда имена кук совпали,
-** а их значения по ID в базе нет
- */
-public class CookieMatchFilter implements Filter {
-    private final CookieProcessor cu;
 
-    public CookieMatchFilter(CookieProcessor cu) {
-        this.cu = cu;
+public class NoSuchUserFilter implements Filter {
+    private UserService us;
+
+    public NoSuchUserFilter(UserService us) {
+        this.us = us;
     }
 
     @Override
@@ -34,10 +30,11 @@ public class CookieMatchFilter implements Filter {
         } else {
             throw new IllegalArgumentException("ServletRequest and ServletResponse should be instance of HttpServletRequest and HttpServletResponse");
         }
-        if (cu.cookieMatch(req)) {
-            chain.doFilter(request, response);
+        if(HttpMethod.GET.name().equalsIgnoreCase(req.getMethod())&&us.isUserDBEmpty()){
+            resp.getWriter().print("<html> <a href=\"/auth\"> Sorry there is no such user. Register, following this link! </a></html>");
+
         } else {
-            resp.sendRedirect("/login");
+            chain.doFilter(request, response);
         }
 
     }
@@ -46,5 +43,4 @@ public class CookieMatchFilter implements Filter {
     public void destroy() {
 
     }
-
 }

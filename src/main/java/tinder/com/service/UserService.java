@@ -64,14 +64,14 @@ public class UserService {
                 return user;
             }
         }
-        throw new NoNewUsersException("No new users to show");
+        throw new NoNewUsersException("Nothing to watch!");
     }
     public User getUserUnchecked(int id, int user_per_page) throws NoNewUsersException {
         if(daoExtra.getByUser(id, user_per_page).size() != 0){
             return daoExtra.getByUser(id, user_per_page).get(0);
         }
         else {
-            throw new NoNewUsersException ("No new users to show");
+            throw new NoNewUsersException ("Nothing to watch!");
         }
     }
 }

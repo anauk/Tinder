@@ -29,7 +29,7 @@ public class Freemarker {
     }
 
     public Freemarker() {
-        this("src/main/resources/templates");
+        this("./src/main/resources/templates");
     }
 
     public void render(final String templateFile, final HttpServletResponse resp) throws IOException {

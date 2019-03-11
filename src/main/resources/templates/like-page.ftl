@@ -16,8 +16,14 @@
     <link rel="stylesheet" href="templates/css/style.css">
 </head>
 <body style="background-color: #f5f5f5;">
-
-<div class="col-4 offset-4">
+<div class="container">
+    <div class="row">
+        <div class="col-4 offset-4">
+    <form action="/users" class="form-linked" method="post">
+        <a href="/liked" class="btn btn-lg btn-dark btn-links">Go to my liked</a>
+        <input type="hidden" name="choice" value="logout" class="form-control">
+        <button class="btn btn-lg btn-dark btn-links" type="submit">Log out</button>
+    </form>
     <div class="card">
         <div class="card-body">
             <div class="row">
@@ -47,11 +53,7 @@
         <!--/card-block-->
     </div>
 </div>
-<form action="/users" class="form-signin form-linked" method="post">
-    <a href="/liked" class="btn btn-lg btn-primary btn-links">Go to my liked</a>
-    <input type="hidden" name="choice" value="logout" class="form-control">
-    <a href="/logout" class="btn btn-lg btn-primary btn-links" type="submit">Log out</a>
-</form>
-
+    </div>
+</div>
 </body>
 </html>

@@ -1,9 +1,11 @@
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import tinder.com.Interface.UserStorage;
 import tinder.com.dataBase.DBConnection;
 import tinder.com.entity.CookiesNames;
+import tinder.com.filter.*;
 import tinder.com.impl.*;
 import tinder.com.service.CartService;
 import tinder.com.service.MessagesService;
@@ -13,7 +15,9 @@ import tinder.com.service.UserService;
 import tinder.com.servlets.*;
 import tinder.com.utils.TemplatesServlet;
 
+import javax.servlet.DispatcherType;
 import java.sql.Connection;
+import java.util.EnumSet;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -33,10 +37,25 @@ public class Main {
         handler.addServlet(new ServletHolder(new LoginServlet()), "/login");
         handler.addServlet(new ServletHolder(new AuthServlet(userService)), "/auth");
         handler.addServlet(new ServletHolder(new LogoutServlet()), "/logout");
-        handler.addServlet(new ServletHolder(new ChatServlet(cartService, userService, messagesService, cu)), "/chat");
+        handler.addServlet(new ServletHolder(new ChatServlet(cartService, userService, messagesService, cu)), "/chat/*");
         handler.addServlet(new ServletHolder(new LikedServlet(cartService, userService, cu)), "/liked");
 
-        //handler.addFilter(new FilterHolder(new LoginPasswordFilter(userService)), "/login", EnumSet.of(DispatcherType.INCLUDE,DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new LoginPasswordFilter(userService)), "/login", EnumSet.of(DispatcherType.INCLUDE,DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new NoSuchUserFilter(userService)), "/login", EnumSet.of(DispatcherType.INCLUDE,DispatcherType.REQUEST));
+
+        handler.addFilter(new FilterHolder(new AlreadyExistsUserFilter(userService)), "/auth", EnumSet.of(DispatcherType.INCLUDE,DispatcherType.REQUEST));
+
+        handler.addFilter(new FilterHolder(new HasCoocieFilter()), "/liked", EnumSet.of(DispatcherType.INCLUDE,DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new HasCoocieFilter()), "/users", EnumSet.of(DispatcherType.INCLUDE,DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new HasCoocieFilter()), "/chat/*", EnumSet.of(DispatcherType.INCLUDE,DispatcherType.REQUEST));
+
+        handler.addFilter(new FilterHolder(new SpecificeCookieFilter()), "/liked", EnumSet.of(DispatcherType.INCLUDE,DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new SpecificeCookieFilter()), "/users", EnumSet.of(DispatcherType.INCLUDE,DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new SpecificeCookieFilter()), "/chat/*", EnumSet.of(DispatcherType.INCLUDE,DispatcherType.REQUEST));
+
+        handler.addFilter(new FilterHolder(new IdentifyCookieFilter(cu)), "/liked", EnumSet.of(DispatcherType.INCLUDE,DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new IdentifyCookieFilter(cu)), "/users", EnumSet.of(DispatcherType.INCLUDE,DispatcherType.REQUEST));
+        handler.addFilter(new FilterHolder(new IdentifyCookieFilter(cu)), "/chat/*", EnumSet.of(DispatcherType.INCLUDE,DispatcherType.REQUEST));
 
 
 
@@ -46,6 +65,4 @@ public class Main {
         server.join();
 
     }
-
-
 }

@@ -1,12 +1,17 @@
 package tinder.com.filter;
 
+import tinder.com.entity.CookiesNames;
+
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-//без cookie на страницы /users, /liked, /chat не пропустит
-public class HasCoocieFilter implements Filter {
+import java.lang.reflect.Array;
+import java.util.Arrays;
+//проверяет, что куки именно TINDER("tinder_cookie") для /users, /liked, /chat;
+public class SpecificeCookieFilter implements Filter {
+    private final String cookieName = CookiesNames.TINDER.getName();
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -22,16 +27,14 @@ public class HasCoocieFilter implements Filter {
         } else {
             throw new IllegalArgumentException("ServletRequest and ServletResponse should be instance of HttpServletRequest and HttpServletResponse");
         }
-
         Cookie[] cookies = req.getCookies();
-
-        if (cookies != null && cookies.length > 0) {
-            chain.doFilter(request, response);
-
+        boolean check = Arrays.stream(cookies)
+                .anyMatch(c->c.getName().equalsIgnoreCase(cookieName));
+        if(check){
+            chain.doFilter(request,response);
         } else {
             resp.sendRedirect("/login");
         }
-
     }
 
     @Override

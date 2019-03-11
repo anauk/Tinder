@@ -366,4 +366,13 @@ input:focus{
 .msg-box input:focus{
   outline: none;
 }
+.form-linked {
+  /*flex: 0 0 90%;*/
+  max-width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
 

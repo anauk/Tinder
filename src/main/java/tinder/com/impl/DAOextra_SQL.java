@@ -21,9 +21,7 @@ public class DAOextra_SQL {
     public List<User> getByUser(int id, int user_per_page) {
         List<User> users = new ArrayList<>();
         try {
-            String sql = "select * from users AS users where (users.id != ?) " +
-                    "AND users.id NOT in (select liked.id2 from liked AS liked where liked.id1 = ?) " +
-                    "order by users.id ASC LIMIT ?";
+            String sql = "select * from users where (users.id != ?) AND users.id NOT in (select liked.id2 from liked where liked.id1 = ?) order by users.id ASC LIMIT ?";
             PreparedStatement stm = conn.prepareStatement(sql);
             stm.setInt(1, id);
             stm.setInt(2, id);
@@ -32,6 +30,7 @@ public class DAOextra_SQL {
             ResultSet rSet = stm.executeQuery();
             while (rSet.next()) {
                 User user = new User(
+                        rSet.getInt("id"),
                         rSet.getString("name"),
                         rSet.getString("login"),
                         rSet.getString("password"),

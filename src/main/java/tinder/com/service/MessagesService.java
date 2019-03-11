@@ -1,7 +1,6 @@
 package tinder.com.service;
 
 import tinder.com.entity.MessageItem;
-import tinder.com.entity.MessageItemExtra;
 import tinder.com.impl.MessagesDAO_SQl;
 
 import java.util.List;
@@ -31,7 +30,7 @@ public class MessagesService {
     public boolean isMessageDBEmpty(){
         return messages.isEmpty();
     }
-    public List<MessageItemExtra> getByUser(int id1, int id2){
+    public List<MessageItem> getByUser(int id1, int id2){
         return messages.getByUser(id1, id2);
     }
 }

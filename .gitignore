@@ -1,3 +1,7 @@
 target/
 .idea/
 *.iml
+node_modules/
+*.gitkeep
+build/
+dist/
