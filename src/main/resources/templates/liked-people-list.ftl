@@ -18,7 +18,7 @@
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="templates/css/style.css">
 </head>
-<body>
+<body class="body1">
 <div class="container">
     <div class="row">
         <div class="col-8 offset-2">
