@@ -1,3 +1,5 @@
+package tinder.com;
+
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -57,12 +59,19 @@ public class Main {
         handler.addFilter(new FilterHolder(new IdentifyCookieFilter(cu)), "/users", EnumSet.of(DispatcherType.INCLUDE,DispatcherType.REQUEST));
         handler.addFilter(new FilterHolder(new IdentifyCookieFilter(cu)), "/chat/*", EnumSet.of(DispatcherType.INCLUDE,DispatcherType.REQUEST));
 
+        String port = System.getenv().get("PORT");
+        if (port == null || port.equals("")){
+            port = "80";
+        }
 
-
-        Server server = new Server(80);
+        Server server = new Server(Integer.parseInt(port));
         server.setHandler(handler);
-        server.start();
-        server.join();
+        try {
+            server.start();
+            server.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 }

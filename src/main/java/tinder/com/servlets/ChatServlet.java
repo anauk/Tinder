@@ -1,6 +1,5 @@
 package tinder.com.servlets;
 
-import com.sun.deploy.net.cookie.CookieUnavailableException;
 import tinder.com.entity.MessageItem;
 import tinder.com.service.CartService;
 import tinder.com.service.MessagesService;
@@ -8,7 +7,6 @@ import tinder.com.service.UserService;
 import tinder.com.utils.CookieProcessor;
 import tinder.com.utils.Freemarker;
 import tinder.com.utils.ParameterFromRequest;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +35,7 @@ public class ChatServlet extends HttpServlet {
         int id1 = -1;
         try {
             id1 = Integer.parseInt(cp.getValue(req));
-        } catch (CookieUnavailableException | NumberFormatException e) {
+        } catch (tinder.com.exceptions.CookieUnavailableException | NumberFormatException e) {
             resp.getWriter().printf("<html> <a href=\"/login\"> You have tried to enter to liked-page in illegal way! %n %s </a></html>", e.getMessage());
         }
         String user1Name = us.getUser(id1).getName();
@@ -64,7 +62,7 @@ public class ChatServlet extends HttpServlet {
         int id1 = -1;
         try{
             id1 = Integer.parseInt(cp.getValue(req));
-        } catch (CookieUnavailableException | NumberFormatException e) {
+        } catch (tinder.com.exceptions.CookieUnavailableException | NumberFormatException e) {
             resp.getWriter().printf("<html> <a href=\"/login\"> You have tried to enter to liked-page in illegal way! %n %s </a></html>", e.getMessage());
         }
 

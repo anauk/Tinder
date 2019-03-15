@@ -70,12 +70,6 @@ public class MessageItem {
 
     @Override
     public String toString() {
-        return "MessageItem{" +
-                "id=" + id +
-                ", id1=" + id1 +
-                ", id2=" + id2 +
-                ", message='" + message + '\'' +
-                ", time=" + time +
-                '}';
+        return String.format("MessageItem{id=%d, id1=%d, id2=%d, message='%s', time=%s}", id, id1, id2, message, time);
     }
 }

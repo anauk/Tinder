@@ -1,13 +1,11 @@
 package tinder.com.servlets;
 
-import com.sun.deploy.net.cookie.CookieUnavailableException;
 import tinder.com.entity.CartItemExtra;
 import tinder.com.service.CartService;
 import tinder.com.service.UserService;
 import tinder.com.utils.CookieProcessor;
 import tinder.com.utils.Freemarker;
 import tinder.com.utils.ParameterFromRequest;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,7 +31,7 @@ public class LikedServlet extends HttpServlet {
         int id = -1;
         try{
             id = Integer.parseInt(cp.getValue(req));
-        } catch (CookieUnavailableException | NumberFormatException e) {
+        } catch (tinder.com.exceptions.CookieUnavailableException | NumberFormatException e) {
             resp.getWriter().printf("<html> <a href=\"/login\"> You have tried to enter to liked-page in illegal way! %n %s </a></html>", e.getMessage());
         }
         String userName = userService.getUser(id).getName();

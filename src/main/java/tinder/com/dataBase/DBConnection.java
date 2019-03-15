@@ -10,7 +10,8 @@ public class DBConnection {
     private String password = "secret";
     private Connection connection;
 
-    private Connection connect() throws SQLException {
+    private Connection connect() throws SQLException, ClassNotFoundException {
+        Class.forName("org.postgresql.Driver");
         return DriverManager.getConnection(path, name, password);
     }
 
@@ -20,6 +21,8 @@ public class DBConnection {
                 connection = connect();
             } catch (SQLException e) {
                 throw new IllegalStateException("DbConnection went wrong ", e);
+            } catch (ClassNotFoundException e){
+                e.printStackTrace();
             }
         }
         return this.connection;

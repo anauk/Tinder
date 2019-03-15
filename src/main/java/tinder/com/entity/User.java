@@ -75,14 +75,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", photo='" + photo + '\'' +
-                ", occupation='" + occupation + '\'' +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                '}';
+        return String.format("User{id=%d, name='%s', photo='%s', occupation='%s', login='%s', password='%s'}", id, name, photo, occupation, login, password);
     }
 
     public boolean check(String password) {

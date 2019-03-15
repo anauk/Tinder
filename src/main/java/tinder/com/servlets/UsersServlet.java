@@ -1,6 +1,5 @@
 package tinder.com.servlets;
 
-import com.sun.deploy.net.cookie.CookieUnavailableException;
 import tinder.com.entity.CartItem;
 import tinder.com.entity.User;
 import tinder.com.exceptions.NoNewUsersException;
@@ -8,17 +7,13 @@ import tinder.com.service.CartService;
 import tinder.com.service.UserService;
 import tinder.com.utils.CookieProcessor;
 import tinder.com.utils.Freemarker;
-import tinder.com.impl.UserDAO_SQl;
 import tinder.com.utils.ParameterFromRequest;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.HashMap;
-import java.util.NoSuchElementException;
 
 public class UsersServlet extends HttpServlet {
     private final UserService us;
@@ -38,8 +33,12 @@ public class UsersServlet extends HttpServlet {
         HashMap<String,Object> data = new HashMap<>();
         int id = -1;
         try {
-            id = Integer.parseInt(cp.getValue(req));
-        } catch (CookieUnavailableException | NumberFormatException e) {
+            try {
+                id = Integer.parseInt(cp.getValue(req));
+            } catch (tinder.com.exceptions.CookieUnavailableException e) {
+                e.printStackTrace();
+            }
+        } catch (NumberFormatException e) {
             resp.getWriter().printf("<html> <a href=\"/login\"> This case should never happen. You have tried to get user-list in illegal way! %n %s </a></html>", e.getMessage());
         }
         try {
@@ -63,8 +62,12 @@ public class UsersServlet extends HttpServlet {
         String choice = pfr.getStr("choice");
         int id1 = -1;
         try{
-            id1 = Integer.parseInt(cp.getValue(req));
-        } catch (CookieUnavailableException | NumberFormatException e){
+            try {
+                id1 = Integer.parseInt(cp.getValue(req));
+            } catch (tinder.com.exceptions.CookieUnavailableException e) {
+                e.printStackTrace();
+            }
+        } catch (NumberFormatException e){
             resp.getWriter().printf("<html> <a href=\"/login\"> This case should never happen. You have tried to get user-list in illegal way! %n %s </a></html>", e.getMessage());
         }
 

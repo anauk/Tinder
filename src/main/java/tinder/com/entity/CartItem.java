@@ -38,11 +38,6 @@ public class CartItem {
 
     @Override
     public String toString() {
-        return "CartItem{" +
-                "id=" + id +
-                ", id1=" + id1 +
-                ", id2=" + id2 +
-                ", sumpathy=" + sumpathy +
-                '}';
+        return String.format("CartItem{id=%d, id1=%d, id2=%d, sumpathy=%s}", id, id1, id2, sumpathy);
     }
 }

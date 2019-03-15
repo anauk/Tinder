@@ -1,6 +1,6 @@
 package tinder.com.utils;
 
-import com.sun.deploy.net.cookie.CookieUnavailableException;
+import tinder.com.exceptions.CookieUnavailableException;
 import tinder.com.exceptions.ElementNotFoundInDbException;
 import tinder.com.service.UserService;
 
@@ -21,7 +21,7 @@ public class CookieProcessor {
     public String getValue(HttpServletRequest req) throws CookieUnavailableException {
         Cookie[] cookies = req.getCookies();
         if (cookies == null || cookies.length == 0) {
-            throw new CookieUnavailableException();
+            //throw new CookieUnavailableException();
         }
         String value = Arrays.stream(cookies)
                 .filter(c -> c.getName().equalsIgnoreCase(cookieName))
