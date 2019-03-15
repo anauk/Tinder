@@ -4,7 +4,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import tinder.com.Interface.UserStorage;
 import tinder.com.dataBase.DBConnection;
 import tinder.com.entity.CookiesNames;
 import tinder.com.filter.*;
@@ -12,10 +11,9 @@ import tinder.com.impl.*;
 import tinder.com.service.CartService;
 import tinder.com.service.MessagesService;
 import tinder.com.utils.CookieProcessor;
-import tinder.com.utils.Freemarker;
 import tinder.com.service.UserService;
 import tinder.com.servlets.*;
-import tinder.com.utils.TemplatesServlet;
+import tinder.com.servlets.TemplatesServlet;
 
 import javax.servlet.DispatcherType;
 import java.sql.Connection;
@@ -61,7 +59,7 @@ public class Main {
 
         String port = System.getenv().get("PORT");
         if (port == null || port.equals("")){
-            port = "80";
+            port = "8080";
         }
 
         Server server = new Server(Integer.parseInt(port));

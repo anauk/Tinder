@@ -3,6 +3,7 @@ package tinder.com.servlets;
 import tinder.com.entity.CookiesNames;
 import tinder.com.entity.User;
 import tinder.com.service.UserService;
+import tinder.com.utils.Freemarker;
 import tinder.com.utils.ParameterFromRequest;
 
 import javax.servlet.ServletException;
@@ -13,10 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 
 public class AuthServlet extends HttpServlet {
     private UserService userService;
     private final String cookieName = CookiesNames.TINDER.getName();
+    private Freemarker f = new Freemarker();
+    HashMap<String,Object> data = new HashMap<>();
 
     public AuthServlet(UserService userService) {
         this.userService = userService;
@@ -24,7 +28,7 @@ public class AuthServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Files.copy(Paths.get("./src/main/resources/templates/auth.html"), resp.getOutputStream());
+        f.render("auth.ftl", data, resp);
     }
 
     @Override

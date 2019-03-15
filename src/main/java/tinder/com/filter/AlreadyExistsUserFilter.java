@@ -4,7 +4,6 @@ import org.eclipse.jetty.http.HttpMethod;
 import tinder.com.exceptions.ElementNotFoundInDbException;
 import tinder.com.service.UserService;
 import tinder.com.utils.ParameterFromRequest;
-
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
