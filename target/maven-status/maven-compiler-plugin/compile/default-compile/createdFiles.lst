@@ -5,6 +5,7 @@ tinder/com/filter/HasCoocieFilter.class
 tinder/com/servlets/TemplatesServlet.class
 tinder/com/impl/UserDAO_SQl.class
 tinder/com/servlets/LogoutServlet.class
+tinder/com/dataBase/DBConn.class
 tinder/com/servlets/AuthServlet.class
 tinder/com/dataBase/DBConnection.class
 tinder/com/exceptions/CookieUnavailableException.class

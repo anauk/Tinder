@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private String path = "jdbc:postgresql://localhost:5432/postgres";
+    private String path = "jdbc:postgres://kjgjkuhhmgaerl:96d311194d5419faf690958792ea2dbf672826e3377783239fb4330126002cf9@ec2-54-246-92-116.eu-west-1.compute.amazonaws.com:5432/dauap40l27k3ma";
     private String name = "postgres";
     private String password = "secret";
     private Connection connection;
