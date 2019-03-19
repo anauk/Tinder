@@ -33,6 +33,7 @@ public class Main {
         handler.addServlet(TemplatesServlet.class, "/templates/*");
 
         handler.addServlet(new ServletHolder(new HelloServlet()), "/hello");
+        handler.addServlet(new ServletHolder(new SlashServlet()), "/");
         handler.addServlet(new ServletHolder(new UsersServlet(userService, cu, cartService)), "/users");
         handler.addServlet(new ServletHolder(new LoginServlet()), "/login");
         handler.addServlet(new ServletHolder(new AuthServlet(userService)), "/auth");

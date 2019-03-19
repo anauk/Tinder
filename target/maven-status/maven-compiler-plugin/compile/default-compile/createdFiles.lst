@@ -25,6 +25,7 @@ tinder/com/service/CartService.class
 tinder/com/servlets/ChatServlet.class
 tinder/com/utils/Freemarker.class
 tinder/com/Main.class
+tinder/com/servlets/SlashServlet.class
 tinder/com/exceptions/UserNotFoundException.class
 tinder/com/entity/CookiesNames.class
 tinder/com/impl/CartsDAO_SQl.class

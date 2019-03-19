@@ -34,6 +34,7 @@
 /Users/marinasavluchinska/IdeaProjects/Tinder/src/main/java/tinder/com/utils/Freemarker.java
 /Users/marinasavluchinska/IdeaProjects/Tinder/src/main/java/tinder/com/filter/HasCoocieFilter.java
 /Users/marinasavluchinska/IdeaProjects/Tinder/src/main/java/tinder/com/service/MessagesService.java
+/Users/marinasavluchinska/IdeaProjects/Tinder/src/main/java/tinder/com/servlets/SlashServlet.java
 /Users/marinasavluchinska/IdeaProjects/Tinder/src/main/java/tinder/com/entity/CartItem.java
 /Users/marinasavluchinska/IdeaProjects/Tinder/src/main/java/tinder/com/exceptions/UserNotFoundException.java
 /Users/marinasavluchinska/IdeaProjects/Tinder/src/main/java/tinder/com/entity/User.java
