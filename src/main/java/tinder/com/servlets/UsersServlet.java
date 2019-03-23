@@ -43,6 +43,7 @@ public class UsersServlet extends HttpServlet {
         }
         try {
             User user = us.getUserUnchecked(id, 1);
+            System.out.println(user);
             data.put("style", "");
             data.put("photo", user.getPhoto());
             data.put("name1", user.getName());

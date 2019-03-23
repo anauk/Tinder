@@ -27,7 +27,8 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-12 col-lg-12 col-md-12 text-center">
-                    <img src="${photo}" alt="No image to display" class="mx-auto rounded-circle img-fluid">
+                    <#if photo??><img src="${photo}" alt="No image to display" class="mx-auto rounded-circle img-fluid"><#else>when-missing</#if>
+
                     <h3 class="mb-0 text-truncated">${name1}</h3>
                     <br>
                 </div>

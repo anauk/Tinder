@@ -37,6 +37,7 @@ public class LikedServlet extends HttpServlet {
         String userName = userService.getUser(id).getName();
 
         List<CartItemExtra> cart = cartService.getByUserLiked(id);
+        System.out.println(cart.size());
         HashMap<String, Object> data = new HashMap<>();
         data.put("name", userName);
         System.out.println(cart);

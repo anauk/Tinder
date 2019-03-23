@@ -14,7 +14,9 @@ public class ParameterFromRequest {
         if (number == null || number.equals("")) {
             throw new IllegalStateException(String.format("Missing parameter %s", input));
         }
-        return Integer.parseInt(number.replaceAll("[\\s|\\u00A0]+", ""));
+        number = number.replaceAll("[\\s|\\u00A0]+", "");
+        number = number.replaceAll(",", "");
+        return Integer.parseInt(number);
     }
 
     public String getStr(String input) {

@@ -31,7 +31,7 @@
     <input type="text" name="occupation" id="inputOccup" class="form-control" placeholder="Occupation" required>
 
     <label class="sr-only">Photo</label>
-    <input type="image" name="image" id="inputPhoto" class="form-control" placeholder="Photo" required>
+    <input type="image" name="photo" id="inputPhoto" class="form-control" placeholder="Photo" required>
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
     <a href="/login" class="btn btn-lg btn-primary btn-block" type="submit">Login</a>

@@ -22,7 +22,7 @@
         <div class="col-8 offset-2">
             <div class="panel panel-default user_panel">
                 <div class="panel-heading">
-                    <h3 class="panel-title">${name}, users you liked:</h3>
+                    <h3 class="panel-title">${name?cap_first}, users you liked:</h3>
                 </div>
                 <div class="panel-body">
                     <div class="table-container">
@@ -35,14 +35,15 @@
                                 <td width="10">
                                     <label class="form-label" for="${cartItem.id2}">
                                             <div class="avatar-img">
-    <img class="img-circle" src="${cartItem.photo}"/>  
+                                                <img class="img-circle" src="${cartItem.photo}"/>
+                                                  
                                     </div>
                                     </label>
 
                                 </td>
                                 <td class="align-middle">
                                     <label class="form-label" for="${cartItem.id2}">
-                                        ${cartItem.name}
+                                        ${cartItem.name?cap_first}
                                     </label>
                                 </td>
                                 <td class="align-middle">

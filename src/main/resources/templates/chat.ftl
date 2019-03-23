@@ -66,7 +66,7 @@
                         <#else>
                         <li class="receive-msg float-left mb-2">
                             <div class="sender-img">
-                                <img src="${chatItem.user1photo}" class="float-left">
+                                <img src="${chatItem.user1photo!"photo"}!" class="float-left">
                             </div>
                             <div class="receive-msg-desc float-left ml-2">
                                 <p class="bg-white m-0 pt-1 pb-1 pl-2 pr-2 rounded">
